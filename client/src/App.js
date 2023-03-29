@@ -2,22 +2,25 @@ import NavBar from "../src/Components/NavBar";
 import SideBar from "../src/Components/SideBar";
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
-import Home from "./Components/Home";
+import Home from "./Home";
+import About from "./About";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
   return (
-    <>
+    <BrowserRouter>
       <NavBar />
       <Wrapper>
         <GlobalStyles />
-
         <SideBar />
-        {/* routes will go here later, king */}
         <Container>
-          <Home />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
         </Container>
       </Wrapper>
-    </>
+    </BrowserRouter>
   );
 };
 

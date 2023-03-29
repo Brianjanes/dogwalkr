@@ -6,13 +6,24 @@ const NavBar = () => {
   return (
     <>
       <Container>
-        <LogoImg>
-          <DogLogo />
-        </LogoImg>
+        <a href={"http://localhost:3000"} rel={"noopener noreferrer"}>
+          <LogoImg>
+            <DogLogo />
+          </LogoImg>
+        </a>
+
         <Logo>DOGWALKR</Logo>
         <RightSide>
-          <HomeLink>Home</HomeLink>
-          <About>About</About>
+          <HomeLink href={"http://localhost:3000"} rel={"noopener noreferrer"}>
+            <HomeText>Home</HomeText>
+          </HomeLink>
+
+          <AboutLink
+            href={"http://localhost:3000/about"}
+            rel={"noopener noreferrer"}
+          >
+            <About>About</About>
+          </AboutLink>
           <Login>Login</Login>
         </RightSide>
       </Container>
@@ -39,8 +50,14 @@ const Logo = styled.h1`
   font-size: 1.75em;
   margin-left: 300px;
 `;
-const HomeLink = styled.h2`
+const HomeLink = styled.a`
+  text-decoration: none;
+`;
+const HomeText = styled.h2`
   margin: 20px;
+`;
+const AboutLink = styled.a`
+  text-decoration: none;
 `;
 const About = styled.h2`
   margin: 20px;

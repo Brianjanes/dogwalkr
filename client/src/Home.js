@@ -1,18 +1,45 @@
 import styled from "styled-components";
-import backgroundImg from "../Images/background.PNG";
+import backgroundImg from "./Images/background.PNG";
+import LoginButton from "./Components/LoginButton";
+import LogoutButton from "./Components/LogoutButton";
+import Profile from "./Components/Profile";
+import LoadingSpinner from "./Components/LoadingSpinner";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
+  const { isLoading, error } = useAuth0();
   return (
     <>
       <Container>
         <FormContainer>
-          <LoginForm></LoginForm>
+          <LoginForm>
+            {error && <h2>Authentication Error</h2>}
+            {!error && isLoading && (
+              <LoadingDiv>
+                <LoadingSpinner />
+              </LoadingDiv>
+            )}
+            {!error && !isLoading && (
+              <>
+                <Profile />
+                <LoginButton />
+                <LogoutButton />
+              </>
+            )}
+          </LoginForm>
         </FormContainer>
         <BackgroundImage></BackgroundImage>
       </Container>
     </>
   );
 };
+
+const LoadingDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Container = styled.div`
   max-width: 100vw;
@@ -37,6 +64,10 @@ const BackgroundImage = styled.div`
 `;
 
 const LoginForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   background-color: whitesmoke;
   height: 70%;
   width: 50%;

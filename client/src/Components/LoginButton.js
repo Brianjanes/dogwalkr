@@ -7,7 +7,7 @@ const LoginButton = () => {
   return (
     !isAuthenticated && (
       <>
-        <LoginPrompt>Log In using Auth0</LoginPrompt>
+        <LoginPrompt>Log in to DOGWALKR using Auth0</LoginPrompt>
         <Button onClick={() => loginWithRedirect()}>Sign In</Button>
       </>
     )

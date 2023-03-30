@@ -7,26 +7,28 @@ import LoadingSpinner from "./Components/LoadingSpinner";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Home = () => {
-  const { isLoading, error } = useAuth0();
+  const { isAuthenticated, isLoading, error } = useAuth0();
   return (
     <>
       <Container>
         <FormContainer>
-          <LoginForm>
-            {error && <h2>Authentication Error</h2>}
-            {!error && isLoading && (
-              <LoadingDiv>
-                <LoadingSpinner />
-              </LoadingDiv>
-            )}
-            {!error && !isLoading && (
-              <>
-                <Profile />
-                <LoginButton />
-                <LogoutButton />
-              </>
-            )}
-          </LoginForm>
+          {isAuthenticated && (
+            <LoginForm>
+              {error && <h2>Authentication Error</h2>}
+              {!error && isLoading && (
+                <LoadingDiv>
+                  <LoadingSpinner />
+                </LoadingDiv>
+              )}
+              {!error && !isLoading && (
+                <>
+                  <Profile />
+                  <LoginButton />
+                  <LogoutButton />
+                </>
+              )}
+            </LoginForm>
+          )}
         </FormContainer>
         <BackgroundImage></BackgroundImage>
       </Container>

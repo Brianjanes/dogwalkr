@@ -1,15 +1,26 @@
 {
   "name": "server",
+  "proxy": "http://localhost:8000",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev:server": "nodemon server.js"
   },
   "author": "Brian Janes",
   "license": "ISC",
   "dependencies": {
     "@react-google-maps/api": "^2.18.1",
-    "env": "^0.0.2"
+    "dotenv": "^16.0.3",
+    "env": "^0.0.2",
+    "express": "^4.18.2",
+    "mongodb": "^5.1.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.22",
+    "path": "^0.12.7",
+    "require": "^2.4.20",
+    "uuid": "^9.0.0"
   }
 }

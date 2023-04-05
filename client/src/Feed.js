@@ -32,13 +32,17 @@ const Feed = () => {
       <Container>
         {walks.map((walk) => {
           return (
-            <WalkDiv key={walk.id}>
-              <WalkLocation>{walk.location}</WalkLocation>
-              <WalkDuration>{walk.duration}</WalkDuration>
-              <WalkStartTime>{walk.startTime}</WalkStartTime>
-              <WalkCapacity>{walk.capacity}</WalkCapacity>
+            <>
+              <WalkDiv key={walk.id}>
+                <WalkLocation key={walk.location}>{walk.location}</WalkLocation>
+                <WalkDuration key={walk.endTime}>{walk.endTime}</WalkDuration>
+                <WalkStartTime key={walk.startTime}>
+                  {walk.startTime}
+                </WalkStartTime>
+                <WalkCapacity key={walk.capacity}>{walk.capacity}</WalkCapacity>
+              </WalkDiv>
               <JoinWalkButton>Join Walk</JoinWalkButton>
-            </WalkDiv>
+            </>
           );
         })}
       </Container>

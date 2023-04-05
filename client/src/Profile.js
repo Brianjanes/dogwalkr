@@ -1,6 +1,6 @@
 import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { AddFriend } from "./Components/AddFriend";
+import AddFriend from "./Components/AddFriend";
 import { useEffect } from "react";
 import { useState } from "react";
 import styled from "styled-components";
@@ -9,25 +9,20 @@ const Profile = ({ user, loggedInUser }) => {
   console.log(loggedInUser);
   return (
     <ProfileContainer>
-      {Object.keys(loggedInUser).map((key) => {
-        return (
-          <ProfileCard key={key}>
-            <ProfileImage src={loggedInUser[key].picture} />
-            <ProfileInfo>
-              <ProfileName>{loggedInUser[key].name}</ProfileName>
-              <ProfileEmail>{loggedInUser[key].email}</ProfileEmail>
-              <ProfileBio>{loggedInUser[key].bio}</ProfileBio>
-            </ProfileInfo>
-          </ProfileCard>
-        );
-      })}
+      {/* <ProfileImage src={loggedInUser.image} /> */}
+      <ProfileInfo>
+        <Name>
+          {loggedInUser.firstName} {loggedInUser.lastName}
+        </Name>
+        <Location>{loggedInUser.location}</Location>
+        <Bio>{loggedInUser.bio}</Bio>
+      </ProfileInfo>
     </ProfileContainer>
   );
 };
 
 const ProfileContainer = styled.div`
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: whitesmoke;
@@ -36,17 +31,10 @@ const ProfileContainer = styled.div`
   border-radius: 20px;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
 `;
-const ProfileCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 80%;
-`;
 
 const ProfileImage = styled.img`
-  width: 100%;
-  height: 100%;
+  width: 200px;
+  height: 200px;
   border-radius: 20px;
 `;
 
@@ -54,13 +42,23 @@ const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  padding: 20px;
+`;
+const Name = styled.p`
+  font-size: 2em;
+  margin: 10px;
 `;
 
-const ProfileName = styled.h1``;
+const Location = styled.p`
+  font-size: 1.5em;
+  margin: 10px;
+`;
 
-const ProfileEmail = styled.h1``;
-
-const ProfileBio = styled.h1``;
+const Bio = styled.p`
+  font-size: 1.25m;
+  margin: 10px;
+`;
 
 export default Profile;
 

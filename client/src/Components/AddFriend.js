@@ -23,6 +23,16 @@ const AddFriend = () => {
   };
 };
 
-const Button = styled.button``;
+const Button = styled.button`
+  height: 25px;
+  width: 100px;
+  font-size: 1.1em;
+  border-radius: 12px;
+  background-color: #7635c4;
+  &:hover {
+    cursor: pointer;
+    border: none;
+  }
+`;
 
 export default AddFriend;

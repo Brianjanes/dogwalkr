@@ -1,8 +1,6 @@
 import styled from "styled-components";
-import backgroundImg from "./Images/background.PNG";
 import LoginButton from "./Components/LoginButton";
 import LogoutButton from "./Components/LogoutButton";
-
 import LoadingSpinner from "./Components/LoadingSpinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";

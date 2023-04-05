@@ -56,7 +56,6 @@ const checkUser = async (request, response) => {
   try {
     await client.connect();
     const user = await usersCollection.findOne({ email });
-    console.log(user);
     if (user) {
       return response.status(200).json({
         status: 200,
@@ -64,7 +63,6 @@ const checkUser = async (request, response) => {
         data: user,
       });
     } else {
-      //this is setting up a scructure for the new user
       return response.status(401).json({
         status: 401,
         inDB: false,

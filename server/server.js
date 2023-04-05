@@ -3,14 +3,25 @@
 const express = require("express");
 const morgan = require("morgan");
 
-const { addPost, deletePost } = require("./Handlers/PostHandlers");
+const {
+  addWalk,
+  deleteWalk,
+  getWalk,
+  getWalks,
+} = require("./Handlers/WalkHandlers");
 
 const {
   getUser,
   getUsers,
+  checkUser,
   addUser,
   deleteUser,
+  updateOneUser,
 } = require("./Handlers/UserHandlers");
+
+const { addFriend, deleteFriend } = require("./Handlers/FriendsHandlers");
+
+const { searchHandler } = require("./Handlers/searchHandler");
 
 const app = express();
 
@@ -23,17 +34,28 @@ app.use(express.static("public"));
 
 // these are our users endpoints.
 app.get("/users", getUsers);
-app.get("/users/:userName", getUser);
-app.post("/users", addUser);
+app.get("/users/:email", getUser);
+app.get("/user/check", checkUser);
+app.post("/user/addNewUser", addUser);
+app.patch("/users/:userName", updateOneUser);
 app.delete("/users/:userName", deleteUser);
 
+// this is our endpoint for searching for users.
+app.get("/search/:search", searchHandler);
+
+// these are our friends endpoints.
+app.post("/friends", addFriend);
+app.delete("/friends/:_id", deleteFriend);
+
 //these are our post endpoints
-app.post("/posts", addPost);
-app.delete("/posts/:id", deletePost);
+app.post("/walks/add", addWalk);
+app.delete("/walks/:_id", deleteWalk);
+app.get("/walks/:_id", getWalk);
+app.get("/walks", getWalks);
 
 // this is our catch all endpoint.
 app.get("*", (request, response) => {
-  response.status(404).json({
+  return response.status(404).json({
     status: 404,
     message: "Nothing to see here.",
   });

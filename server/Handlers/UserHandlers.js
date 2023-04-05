@@ -1,6 +1,5 @@
 const { MongoClient } = require("mongodb");
 require("dotenv").config({ path: "../.env" });
-const { v4: uuidv4 } = require("uuid");
 const { MONGO_URI } = process.env;
 
 const options = {
@@ -11,7 +10,7 @@ const options = {
 const client = new MongoClient(MONGO_URI, options);
 const db = client.db("DOGWALKR");
 const usersCollection = db.collection("users");
-
+//this is out handler for all users
 const getUsers = async (request, response) => {
   try {
     await client.connect();
@@ -30,12 +29,12 @@ const getUsers = async (request, response) => {
     client.close();
   }
 };
-
+//this is our handler for getting a single user
 const getUser = async (request, response) => {
-  const userName = request.params.userName;
+  const email = request.params.email;
   try {
     await client.connect();
-    const user = await usersCollection.findOne({ userName });
+    const user = await usersCollection.findOne({ email });
     return response.status(200).json({
       status: 200,
       data: user,
@@ -51,39 +50,24 @@ const getUser = async (request, response) => {
   }
 };
 
-const addUser = async (request, response) => {
-  const { userName, firstName, lastName, email, location, petName } =
-    request.body;
+//this is our handler for checking if a user should be sent to further registration
+const checkUser = async (request, response) => {
+  const { email } = request.query;
   try {
     await client.connect();
-    const user = await usersCollection.findOne({ userName });
+    const user = await usersCollection.findOne({ email });
+    console.log(user);
     if (user) {
-      return response.status(404).json({
-        status: 404,
-        message: "User already exists",
-      });
-    } else {
-      const id = uuidv4();
-      const newUser = {
-        id,
-        userName,
-        firstName,
-        lastName,
-        email,
-        location,
-        petName,
-      };
-      const newUserResult = await usersCollection.insertOne(newUser);
-      if (!newUserResult.insertedId) {
-        return response.status(502).json({
-          status: 502,
-          message: "Database error.",
-        });
-      }
       return response.status(200).json({
         status: 200,
-        message: "User added successfully.",
-        data: newUserResult,
+        inDB: true,
+        data: user,
+      });
+    } else {
+      //this is setting up a scructure for the new user
+      return response.status(401).json({
+        status: 401,
+        inDB: false,
       });
     }
   } catch (error) {
@@ -97,6 +81,43 @@ const addUser = async (request, response) => {
   }
 };
 
+const addUser = async (request, response) => {
+  const { firstName, lastName, userName, email, location, bio } =
+    request.body.formInformation;
+  try {
+    await client.connect();
+    const newUser = {
+      userName,
+      firstName,
+      lastName,
+      email,
+      location,
+      bio,
+    };
+    const newUserResult = await usersCollection.insertOne(newUser);
+    if (!newUserResult.insertedId) {
+      return response.status(502).json({
+        status: 502,
+        message: "Database error.",
+      });
+    }
+    return response.status(200).json({
+      status: 200,
+      message: "User added successfully.",
+      data: newUserResult,
+    });
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({
+      status: 500,
+      message: "Internal server error",
+    });
+  } finally {
+    client.close();
+  }
+};
+
+//this is handler for deleting a user
 const deleteUser = async (request, response) => {
   const userName = request.params.userName;
   try {
@@ -118,7 +139,49 @@ const deleteUser = async (request, response) => {
     console.log(error);
     return response.status(500).json({
       status: 500,
-      data: error,
+      message: "Internal server error",
+    });
+  } finally {
+    client.close();
+  }
+};
+
+const updateOneUser = async (request, response) => {
+  const userName = request.params.userName;
+  const { firstName, lastName, email, location, petName, friends } =
+    request.body;
+  try {
+    await client.connect();
+    const user = await usersCollection.findOne({ userName });
+    if (!user) {
+      return response.status(404).json({
+        status: 404,
+        message: "User not found",
+      });
+    } else {
+      await usersCollection.updateOne(
+        { userName },
+        {
+          $set: {
+            firstName,
+            lastName,
+            email,
+            location,
+            petName,
+            friends,
+          },
+        }
+      );
+      return response.status(200).json({
+        status: 200,
+        message: "User updated successfully",
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({
+      status: 500,
+      message: "Internal server error",
     });
   } finally {
     client.close();
@@ -128,6 +191,8 @@ const deleteUser = async (request, response) => {
 module.exports = {
   getUsers,
   getUser,
+  checkUser,
   addUser,
   deleteUser,
+  updateOneUser,
 };

@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import { DogLogo } from "./CutsomIcons";
+import { useAuth0 } from "@auth0/auth0-react";
+import LogoutButton from "./LogoutButton";
+import LoginButton from "./LoginButton";
+import SearchBar from "./SearchBar";
 
 const NavBar = () => {
+  const { isAuthenticated } = useAuth0();
   return (
     <>
       <Container>
@@ -14,6 +19,7 @@ const NavBar = () => {
 
         <Logo>DOGWALKR</Logo>
         <RightSide>
+          {isAuthenticated && <SearchBar />}
           <HomeLink href={"http://localhost:3000"} rel={"noopener noreferrer"}>
             <HomeText>Home</HomeText>
           </HomeLink>
@@ -24,7 +30,8 @@ const NavBar = () => {
           >
             <About>About</About>
           </AboutLink>
-          <Login>Login</Login>
+
+          {isAuthenticated ? <LogoutButton /> : <LoginButton />}
         </RightSide>
       </Container>
     </>
@@ -44,6 +51,7 @@ const Container = styled.div`
 `;
 const RightSide = styled.div`
   display: flex;
+  align-items: center;
   margin-right: 200px;
 `;
 const Logo = styled.h1`
@@ -60,9 +68,6 @@ const AboutLink = styled.a`
   text-decoration: none;
 `;
 const About = styled.h2`
-  margin: 20px;
-`;
-const Login = styled.h2`
   margin: 20px;
 `;
 

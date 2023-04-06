@@ -157,7 +157,6 @@ const InputField = styled.input`
   margin: 5px;
   max-width: 100%;
   font-size: 1.25em;
-  font-family: "Courier New", Courier, monospace;
 `;
 const Wrapper = styled.div`
   display: flex;
@@ -196,7 +195,6 @@ const Bio = styled.textarea`
   border-radius: 5px;
   min-width: 300px;
   min-height: 100px;
-  font-family: "Courier New", Courier, monospace;
 `;
 const Container = styled.div`
   display: flex;
@@ -213,11 +211,6 @@ const Container = styled.div`
 const Button = styled.button`
   font-size: 1.25em;
   padding: 15px 30px;
-  border: none;
-  border-radius: 5px;
-  background-color: #7635c4;
-  color: white;
-  cursor: pointer;
 `;
 
 export default Registration;

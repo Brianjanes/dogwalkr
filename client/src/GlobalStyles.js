@@ -1,15 +1,31 @@
 import { createGlobalStyle } from "styled-components";
 
+//global reset!
+
 export default createGlobalStyle`
   :root {
     --font-family: 'Roboto', sans-serif;
     --padding-page: 24px;
   }
 
-  /* http://meyerweb.com/eric/tools/css/reset/
-      v2.0 | 20110126
-      License: none (public domain)
-  */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: lightgray;
+    border-radius: 25px;
+    margin-block: 20px;
+  }
+  ::-webkit-scrollbar-thumb {
+  background-color: #c2c2d6;
+  border: 2px solid lightgray;
+  border-radius: 20px;    
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #9595b7;
+}
+
+
 
   html, body, div, span, applet, object, iframe,
   h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -31,6 +47,7 @@ export default createGlobalStyle`
       box-sizing: border-box;
       font-size: 100%;
       vertical-align: baseline;
+      text-decoration: none;
   }
   /* HTML5 display-role reset for older browsers */
   article, aside, details, figcaption, figure,
@@ -43,11 +60,21 @@ export default createGlobalStyle`
       list-style: none;
   }
 
+  button {
+    background-color: #7575a3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+  }
+  button:hover {
+    background-color: #666699;
+    cursor: pointer;
+    border: none;
+  }
   h1,
 h2,
 h3,
-label,
-button {
+label {
 
 }
 p,
@@ -61,4 +88,7 @@ input {
   input {
  
   }
+  .scrollhost::-webkit-scrollbar {
+  display: none;
+}
 `;

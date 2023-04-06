@@ -3,8 +3,9 @@ import { useState } from "react";
 import styled from "styled-components";
 import NewWalk from "./Modal/NewWalk";
 import { useEffect } from "react";
+import SearchBar from "./Components/SearchBar";
 
-const Feed = () => {
+const Feed = ({ loggedInUser }) => {
   const [modal, setModal] = useState(false);
   const [walks, setWalks] = useState([]);
 
@@ -23,73 +24,82 @@ const Feed = () => {
 
   return (
     <Wrapper>
-      {modal && <NewWalk modal={modal} setModal={setModal} />}
-      <ButtonDiv>
-        <NewWalkButton onClick={(e) => handleClick(e)}>
-          Create New Walk
-        </NewWalkButton>
-      </ButtonDiv>
-      <Container>
+      {modal && (
+        <NewWalk
+          loggedInUser={loggedInUser}
+          modal={modal}
+          setModal={setModal}
+        />
+      )}
+
+      <LeftSide>
+        <ButtonDiv>
+          <NewWalkButton onClick={(e) => handleClick(e)}>
+            Create New Walk
+          </NewWalkButton>
+        </ButtonDiv>
         {walks.map((walk) => {
           return (
-            <>
-              <WalkDiv key={walk.id}>
-                <WalkLocation key={walk.location}>{walk.location}</WalkLocation>
-                <WalkDuration key={walk.endTime}>{walk.endTime}</WalkDuration>
-                <WalkStartTime key={walk.startTime}>
-                  {walk.startTime}
-                </WalkStartTime>
-                <WalkCapacity key={walk.capacity}>{walk.capacity}</WalkCapacity>
-              </WalkDiv>
+            <WalkDiv key={walk._id}>
+              <WalkUserName> Username: {walk.userName}</WalkUserName>
+              <WalkLocation>Location: {walk.location}</WalkLocation>
+              <WalkStartTime>Start time: {walk.startTime}</WalkStartTime>
+              <WalkDuration>End Time: {walk.endTime}</WalkDuration>
+              <WalkCapacity>Number of Walkers:{walk.capacity}</WalkCapacity>
+              <PostTime>Posted Time: {walk.dateTime}</PostTime>
               <JoinWalkButton>Join Walk</JoinWalkButton>
-            </>
+            </WalkDiv>
           );
         })}
-      </Container>
+      </LeftSide>
+      <RightSide>
+        <TopRight>
+          <SearchDiv>
+            <FindFriends>Search for Friends!</FindFriends>
+            <SearchBar />
+          </SearchDiv>
+          <Friends>Friends will go in here!</Friends>
+        </TopRight>
+        <WalkHistory>Walk History</WalkHistory>
+      </RightSide>
     </Wrapper>
   );
 };
 
-const ButtonDiv = styled.div`
+const Wrapper = styled.div`
   display: flex;
-  justify-content: flex-end;
-`;
-const NewWalkButton = styled.button`
-  font-size: 1.25em;
-  padding: 15px 30px;
-  border: none;
-  border-radius: 8px;
-  background-color: #7635c4;
-  color: white;
-  margin: 10px;
-  cursor: pointer;
+  justify-content: center;
+  gap: 20px;
+  width: 85%;
+  height: 90%;
 `;
 
-const Container = styled.div`
+const LeftSide = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: whitesmoke;
   height: 100%;
+  width: 45%;
   border-radius: 20px;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
+  overflow-y: scroll;
 `;
-const Wrapper = styled.div`
+const ButtonDiv = styled.div`
   display: flex;
-  flex-direction: column;
-  width: 75%;
-  height: 80%;
+  justify-content: flex-end;
 `;
+const NewWalkButton = styled.button`
+  font-size: 1em;
+  padding: 10px 20px;
+  margin: 10px;
+`;
+
 const JoinWalkButton = styled.button`
   font-size: 1em;
   padding: 7px 15px;
-  border: none;
-  border-radius: 5px;
-  background-color: #7635c4;
-  color: white;
   margin: 10px;
-  cursor: pointer;
 `;
 const WalkDiv = styled.div`
   display: flex;
@@ -97,10 +107,14 @@ const WalkDiv = styled.div`
   justify-content: center;
   align-items: center;
   border: 1px solid black;
-  border-radius: 8px;
-  width: 80%;
+  border-radius: 10px;
+  width: 85%;
   margin: 10px;
   padding: 10px;
+`;
+
+const WalkUserName = styled.p`
+  font-weight: bold;
 `;
 const WalkLocation = styled.p`
   font-weight: bold;
@@ -115,6 +129,57 @@ const WalkStartTime = styled.p`
 `;
 const WalkCapacity = styled.p`
   font-weight: bold;
+`;
+const PostTime = styled.p``;
+
+//right side of the page
+const RightSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  height: 100%;
+  gap: 20px;
+`;
+const WalkHistory = styled.div`
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: whitesmoke;
+  border-radius: 20px;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
+`;
+const TopRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: whitesmoke;
+  height: 100%;
+  border-radius: 20px;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
+  overflow-y: scroll;
+`;
+const SearchDiv = styled.div`
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20%;
+
+  background-color: whitesmoke;
+`;
+const FindFriends = styled.p`
+  display: flex;
+  font-weight: bold;
+  font-size: 1.5em;
+`;
+const Friends = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 90%;
+  width: 90%;
 `;
 
 export default Feed;

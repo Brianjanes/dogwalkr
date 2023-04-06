@@ -63,7 +63,7 @@ const Wrapper = styled.div`
 `;
 
 const SearchIcon = styled(FiSearch)`
-  font-size: 25px;
+  font-size: 30px;
   &:hover {
     cursor: pointer;
   }
@@ -79,12 +79,12 @@ const SearchBarInput = styled.input`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 200px;
+  width: 300px;
   height: 40px;
   margin: 5px;
-  padding: 5px;
+  padding: 10px;
   border-radius: 10px;
-  font-family: "Courier New", Courier, monospace;
+  font-size: 1.1em;
 `;
 
 const Dropdown = styled.div`

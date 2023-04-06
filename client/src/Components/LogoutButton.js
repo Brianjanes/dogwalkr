@@ -9,16 +9,9 @@ const LogoutButton = () => {
 };
 
 const Button = styled.button`
-  color: white;
   height: 40px;
   width: 125px;
   font-size: 1.1em;
-  border-radius: 12px;
-  background-color: #7635c4;
-  &:hover {
-    cursor: pointer;
-    border: none;
-  }
 `;
 
 export default LogoutButton;

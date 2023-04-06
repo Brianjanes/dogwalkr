@@ -13,14 +13,18 @@ const postCollection = db.collection("posts");
 
 //this is our handler for adding a new post
 const addWalk = async (request, response) => {
-  const { location, endTime, startTime, capacity } = request.body;
+  const { dateTime, userName, location, endTime, startTime, capacity } =
+    request.body;
   try {
     await client.connect();
     const newWalk = {
+      userName,
       location,
       endTime,
       startTime,
       capacity,
+      dateTime,
+      attendees: [],
     };
     const walk = await postCollection.insertOne(newWalk);
     if (!walk.insertedId) {

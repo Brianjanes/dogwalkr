@@ -19,7 +19,6 @@ const NavBar = () => {
 
         <Logo>DOGWALKR</Logo>
         <RightSide>
-          {isAuthenticated && <SearchBar />}
           <HomeLink href={"http://localhost:3000"} rel={"noopener noreferrer"}>
             <HomeText>Home</HomeText>
           </HomeLink>
@@ -58,17 +57,15 @@ const Logo = styled.h1`
   font-size: 1.75em;
   margin-left: 300px;
 `;
-const HomeLink = styled.a`
-  text-decoration: none;
-`;
+const HomeLink = styled.a``;
 const HomeText = styled.h2`
   margin: 20px;
+  font-size: 1.25em;
 `;
-const AboutLink = styled.a`
-  text-decoration: none;
-`;
+const AboutLink = styled.a``;
 const About = styled.h2`
   margin: 20px;
+  font-size: 1.25em;
 `;
 
 export default NavBar;

@@ -1,5 +1,4 @@
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import AddFriend from "./Components/AddFriend";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -7,7 +6,6 @@ import LoadingSpinner from "./Components/LoadingSpinner";
 import styled from "styled-components";
 
 const Profile = ({ user, loggedInUser }) => {
-  console.log(loggedInUser);
   return (
     <ProfileContainer>
       {!loggedInUser ? (

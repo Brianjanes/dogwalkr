@@ -15,16 +15,9 @@ const LoginButton = () => {
 };
 
 const Button = styled.button`
-  color: white;
   height: 30px;
   width: 125px;
   font-size: 1.1em;
-  border-radius: 12px;
-  background-color: #7635c4;
-  &:hover {
-    cursor: pointer;
-    border: none;
-  }
 `;
 
 export default LoginButton;

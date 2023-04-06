@@ -12,48 +12,7 @@ const db = client.db("DOGWALKR");
 const usersCollection = db.collection("users");
 
 //this handler is for adding a friend
-const addFriend = async (request, response) => {
-  const { userName, friendName } = request.body;
-  try {
-    const user = await usersCollection.findOne({ _id: userName });
-    if (!user) {
-      return response.status(404).json({
-        status: 404,
-        message: "User not found",
-      });
-    }
-    const friend = await usersCollection.findOne({ _id: friendName });
-    if (!friend) {
-      return response.status(404).json({
-        status: 404,
-        message: "Friend not found",
-      });
-    }
-    if (user.friends.includes(friendName)) {
-      return response.status(409).json({
-        status: 409,
-        message: "User already friends with this user",
-      });
-    }
-    await usersCollection.updateOne(
-      { _id: userName },
-      { $push: { friends: friendName } }
-    );
-    return response.status(201).json({
-      status: 201,
-      message: "Friend added successfully",
-      data: friend,
-    });
-  } catch (error) {
-    console.log(error);
-    response.status(500).json({
-      status: 500,
-      message: "Internal server error",
-    });
-  } finally {
-    client.close();
-  }
-};
+const addFriend = async (request, response) => {};
 
 // this handler is for removing a friend
 const deleteFriend = async (request, response) => {

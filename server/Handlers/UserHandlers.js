@@ -93,11 +93,14 @@ const addUser = async (request, response) => {
       bio,
       friends: [
         {
-          _id: "",
-          userName: "",
-          email: "",
-          firstName: "",
-          lastName: "",
+          _id: "642e26065c986a1e56d5ff5d",
+          image: "",
+          userName: "glen",
+          firstName: "glen",
+          lastName: "may",
+          email: "glenisnice@gmail.com",
+          location: "st johns",
+          bio: "i'm a nice guy",
         },
       ],
     };

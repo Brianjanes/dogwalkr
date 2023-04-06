@@ -59,6 +59,12 @@ export default createGlobalStyle`
   ol, ul {
       list-style: none;
   }
+  a:visited {
+    color: black;
+  }
+  a:hover {
+    color: #666699;
+  }
 
   button {
     background-color: #7575a3;

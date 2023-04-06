@@ -5,7 +5,7 @@ const AddFriend = () => {
   const handleClick = (e) => {
     e.preventDefault();
     console.log("clicked");
-    fetch("/friends")
+    fetch("/addFriend/:_id")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

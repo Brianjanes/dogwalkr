@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import LoadingSpinner from "./Components/LoadingSpinner";
+import LoadingSpinner from "../Components/LoadingSpinner";
 import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 

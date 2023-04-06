@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-import NewWalk from "./Modal/NewWalk";
+import NewWalk from "../Modal/NewWalk";
 import { useEffect } from "react";
-import SearchBar from "./Components/SearchBar";
-import UserThumbnail from "./Components/UserThumbnail";
+import SearchBar from "../Components/SearchBar";
+import UserThumbnail from "../Components/UserThumbnail";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Feed = ({ loggedInUser }) => {

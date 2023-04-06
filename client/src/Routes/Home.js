@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import LoginButton from "./Components/LoginButton";
-import LogoutButton from "./Components/LogoutButton";
-import LoadingSpinner from "./Components/LoadingSpinner";
+import LoginButton from "../Components/LoginButton";
+import LogoutButton from "../Components/LogoutButton";
+import LoadingSpinner from "../Components/LoadingSpinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";

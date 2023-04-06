@@ -36,7 +36,6 @@ const App = () => {
     };
     fetchUser(user);
   }, [isAuthenticated]);
-  console.log(loggedInUser);
   return (
     <BrowserRouter>
       <NavBar />

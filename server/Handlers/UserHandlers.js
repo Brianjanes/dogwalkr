@@ -91,6 +91,15 @@ const addUser = async (request, response) => {
       email,
       location,
       bio,
+      friends: [
+        {
+          _id: "",
+          userName: "",
+          email: "",
+          firstName: "",
+          lastName: "",
+        },
+      ],
     };
     const newUserResult = await usersCollection.insertOne(newUser);
     if (!newUserResult.insertedId) {

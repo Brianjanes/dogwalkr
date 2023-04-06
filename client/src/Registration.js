@@ -33,7 +33,6 @@ const Registration = () => {
       .then((data) => {
         if (data.status === 200) {
           setFormReceived(true);
-          setFormInformation({ ...formInformation, email: user.email });
           setTimeout(() => {
             navigate("/homefeed");
           }, 3000);
@@ -109,7 +108,6 @@ const Registration = () => {
                     type="text"
                     name="email"
                     placeholder="Your email"
-                    value={user.email}
                     onChange={(e) => handleInputChange(e)}
                   />
                 </RequiredInfo>

@@ -48,21 +48,6 @@ const NewWalk = ({ modal, setModal }) => {
         capacity: value,
       });
     }
-
-    // if (
-    //   formInformation.location.length > 1 &&
-    //   formInformation.startTime.length > 1 &&
-    //   formInformation.endTime.length > 1 &&
-    //   formInformation.capacity.length > 0
-    // ) {
-    //   setFormIsValid(true);
-    // }
-    // setFormIsValid(
-    //   formInformation.location.length > 1 &&
-    //     formInformation.startTime.length > 1 &&
-    //     formInformation.endTime.length > 1 &&
-    //     formInformation.capacity.length > 0
-    // );
   };
 
   const handleNewWalk = (e) => {
@@ -144,8 +129,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 300px;
-  height: 350px;
+  width: 375px;
+  height: 375px;
   border-radius: 20px;
   background-color: whitesmoke;
   z-index: 1;

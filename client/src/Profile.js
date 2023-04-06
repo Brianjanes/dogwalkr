@@ -3,20 +3,33 @@ import { useAuth0 } from "@auth0/auth0-react";
 import AddFriend from "./Components/AddFriend";
 import { useEffect } from "react";
 import { useState } from "react";
+import LoadingSpinner from "./Components/LoadingSpinner";
 import styled from "styled-components";
 
 const Profile = ({ user, loggedInUser }) => {
   console.log(loggedInUser);
   return (
     <ProfileContainer>
-      {/* <ProfileImage src={loggedInUser.image} /> */}
-      <ProfileInfo>
-        <Name>
-          {loggedInUser.firstName} {loggedInUser.lastName}
-        </Name>
-        <Location>{loggedInUser.location}</Location>
-        <Bio>{loggedInUser.bio}</Bio>
-      </ProfileInfo>
+      {!loggedInUser ? (
+        <LoadingDiv>
+          <LoadingSpinner />
+        </LoadingDiv>
+      ) : (
+        <>
+          <LeftSide>
+            <ProfileImage src={loggedInUser.image} />
+            <AddFriend />
+          </LeftSide>
+
+          <ProfileInfo>
+            <Name>
+              {loggedInUser.firstName} {loggedInUser.lastName}
+            </Name>
+            <Location>{loggedInUser.location}</Location>
+            <Bio>{loggedInUser.bio}</Bio>
+          </ProfileInfo>
+        </>
+      )}
     </ProfileContainer>
   );
 };
@@ -36,6 +49,22 @@ const ProfileImage = styled.img`
   width: 200px;
   height: 200px;
   border-radius: 20px;
+  margin: 20px;
+`;
+
+const LoadingDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LeftSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
 `;
 
 const ProfileInfo = styled.div`

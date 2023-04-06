@@ -13,25 +13,31 @@ const usersCollection = db.collection("users");
 
 //this handler is for adding a friend
 const addFriend = async (request, response) => {
-  const { friendId } = request.body;
+  const { userName, friendName } = request.body;
   try {
-    const user = await usersCollection.findOne({ _id: friendId });
+    const user = await usersCollection.findOne({ _id: userName });
     if (!user) {
       return response.status(404).json({
         status: 404,
         message: "User not found",
       });
     }
-    const friend = await usersCollection.findOne({ _id: user._id });
-    if (friend) {
+    const friend = await usersCollection.findOne({ _id: friendName });
+    if (!friend) {
+      return response.status(404).json({
+        status: 404,
+        message: "Friend not found",
+      });
+    }
+    if (user.friends.includes(friendName)) {
       return response.status(409).json({
         status: 409,
-        message: "User already friends",
+        message: "User already friends with this user",
       });
     }
     await usersCollection.updateOne(
-      { _id: user._id },
-      { $addToSet: { friends: friendId } }
+      { _id: userName },
+      { $push: { friends: friendName } }
     );
     return response.status(201).json({
       status: 201,

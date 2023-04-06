@@ -10,20 +10,21 @@ const AddFriend = () => {
       .then((data) => {
         console.log(data);
       });
-
-    return (
-      <Button
-        onClick={(e) => {
-          handleClick(e);
-        }}
-      >
-        Add friend
-      </Button>
-    );
   };
+
+  return (
+    <Button
+      onClick={(e) => {
+        handleClick(e);
+      }}
+    >
+      Add friend
+    </Button>
+  );
 };
 
 const Button = styled.button`
+  color: white;
   height: 25px;
   width: 100px;
   font-size: 1.1em;

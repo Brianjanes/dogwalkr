@@ -7,9 +7,10 @@ import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
 const Registration = () => {
+  const { user } = useAuth0();
   const [formInformation, setFormInformation] = useState({
     userName: "",
-    image: "",
+    image: user.picture,
     firstName: "",
     lastName: "",
     email: "",
@@ -17,7 +18,6 @@ const Registration = () => {
     bio: "",
   });
   const [formReceived, setFormReceived] = useState(false);
-  const { user } = useAuth0();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -45,7 +45,6 @@ const Registration = () => {
     const { name } = e.target;
     if (name === "firstName") {
       setFormInformation({ ...formInformation, firstName: e.target.value });
-      setFormInformation({ ...formInformation, image: user.picture });
     } else if (name === "lastName") {
       setFormInformation({ ...formInformation, lastName: e.target.value });
     } else if (name === "location") {
@@ -56,6 +55,11 @@ const Registration = () => {
       setFormInformation({ ...formInformation, userName: e.target.value });
     } else if (name === "email") {
       setFormInformation({ ...formInformation, email: e.target.value });
+    } else if (name === "image") {
+      setFormInformation({
+        ...formInformation,
+        image: user.pictue,
+      });
     }
   };
 

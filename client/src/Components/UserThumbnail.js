@@ -8,7 +8,7 @@ const UserThumbnail = ({ name, avatar }) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    navigate("/profile/glen");
+    navigate("/glen");
   };
 
   return (
@@ -28,8 +28,8 @@ const UserThumbnail = ({ name, avatar }) => {
 const ImageBox = styled.div`
   img {
     display: block;
-    max-width: 230px;
-    max-height: 95px;
+    max-width: 6rem;
+    max-height: 5rem;
     width: auto;
     height: auto;
     border-radius: 50%;
@@ -40,18 +40,19 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 7rem;
+  width: 6.5rem;
   height: 7rem;
   border-radius: 10%;
   margin: 1rem;
   &:hover {
     cursor: pointer;
-    background-color: #9595b7;
+    border: 2px solid #9595b7;
   }
 `;
 
 const UserName = styled.div`
   font-weight: bold;
+  margin: 0.5rem 0rem 0.2rem 0rem;
 `;
 
 export default UserThumbnail;

@@ -6,12 +6,16 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import { FiMapPin } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 // import UploadWidget from "../Components/UploadWidget";
 
 const Profile = ({ loggedInUser, setLoggedInUser }) => {
   const [user, setUser] = useState([]);
   const userName = useParams().userName;
   const [update, setUpdate] = useState(false);
+  const navigate = useNavigate();
+  const { logout } = useAuth0();
 
   const editProfile = (e) => {
     e.preventDefault();
@@ -78,6 +82,23 @@ const Profile = ({ loggedInUser, setLoggedInUser }) => {
         console.log("Error:", error);
       });
   };
+  const handleDelete = async () => {
+    await fetch(`/delete/${loggedInUser.userName}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((status) => {
+        if (status.status === 200) {
+          setUpdate(!update);
+          logout();
+          navigate("/");
+        }
+      });
+  };
 
   return (
     <ProfileContainer>
@@ -120,7 +141,10 @@ const Profile = ({ loggedInUser, setLoggedInUser }) => {
                     onChange={(e) => handleInputChange(e)}
                   />
                 </Update>
-                <Button onClick={handleUpdate}>Save Changes</Button>
+                <ButtonDiv>
+                  <Button onClick={handleUpdate}>Save Changes</Button>
+                  <Button onClick={handleDelete}>Delete User</Button>
+                </ButtonDiv>
               </>
             ) : (
               <ProfileInfo>
@@ -232,8 +256,14 @@ const Pin = styled(FiMapPin)`
 `;
 const Button = styled.button`
   padding: 10px 20px;
+  margin: 10px;
 `;
-
+const ButtonDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+`;
 export default Profile;
 
 // import { useAuth0 } from "@auth0/auth0-react";

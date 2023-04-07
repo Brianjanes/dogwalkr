@@ -4,24 +4,46 @@ import { DogLogo } from "./CutsomIcons";
 import { useAuth0 } from "@auth0/auth0-react";
 import LogoutButton from "./LogoutButton";
 import LoginButton from "./LoginButton";
-import SearchBar from "./SearchBar";
 
 const NavBar = () => {
   const { isAuthenticated } = useAuth0();
   return (
     <>
       <Container>
-        <a href={"http://localhost:3000"} rel={"noopener noreferrer"}>
-          <LogoImg>
-            <DogLogo />
-          </LogoImg>
-        </a>
+        {!isAuthenticated ? (
+          <a href={"http://localhost:3000"} rel={"noopener noreferrer"}>
+            <LogoImg>
+              <DogLogo />
+            </LogoImg>
+          </a>
+        ) : (
+          <a
+            href={"http://localhost:3000/homefeed"}
+            rel={"noopener noreferrer"}
+          >
+            <LogoImg>
+              <DogLogo />
+            </LogoImg>
+          </a>
+        )}
 
         <Logo>DOGWALKR</Logo>
         <RightSide>
-          <HomeLink href={"http://localhost:3000"} rel={"noopener noreferrer"}>
-            <HomeText>Home</HomeText>
-          </HomeLink>
+          {!isAuthenticated ? (
+            <HomeLink
+              href={"http://localhost:3000"}
+              rel={"noopener noreferrer"}
+            >
+              <HomeText>Home</HomeText>
+            </HomeLink>
+          ) : (
+            <HomeLink
+              href={"http://localhost:3000/homefeed"}
+              rel={"noopener noreferrer"}
+            >
+              <HomeText>Home</HomeText>
+            </HomeLink>
+          )}
 
           <AboutLink
             href={"http://localhost:3000/about"}

@@ -4,7 +4,6 @@ import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
 import Home from "./Routes/Home";
 import About from "./Routes/About";
-import LoginPage from "./LoginPage";
 import Registration from "./Routes/Registration";
 import Feed from "./Routes/Feed";
 import backgroundImg from "./Images/background.PNG";
@@ -36,6 +35,7 @@ const App = () => {
     };
     fetchUser(user);
   }, [isAuthenticated]);
+
   return (
     <BrowserRouter>
       <NavBar />
@@ -46,14 +46,13 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
-            <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<Registration />} />
             <Route
               path="/homefeed"
               element={<Feed loggedInUser={loggedInUser} />}
             />
             <Route
-              path="/profile/:userName"
+              path="/:userName"
               element={
                 <Profile
                   loggedInUser={loggedInUser}

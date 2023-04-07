@@ -2,19 +2,20 @@ import React from "react";
 import { FiSearch } from "react-icons/fi";
 import styled from "styled-components";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SearchBar = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
   //this is for a keydown event
   const handleSearchEnter = (e) => {
     if (e.key === "Enter") {
       fetch(`search/${search}`)
         .then((response) => response.json())
         .then((data) => {
-          console.log(search);
           setSearch(data.data);
-          setUsers(data.users);
+          navigate(`/${search}`);
         });
     }
   };
@@ -23,26 +24,16 @@ const SearchBar = () => {
     fetch(`search/${search}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(search);
         setSearch(data.data);
-        setUsers(data.users);
+        navigate(`/${search}`);
       });
-  };
-  const UserDropdown = ({ users }) => {
-    return (
-      <Dropdown>
-        {users.map((user) => (
-          <DropdownItem key={user.id}>{user.name}</DropdownItem>
-        ))}
-      </Dropdown>
-    );
   };
 
   return (
     <Wrapper>
       <SearchBarInput
         type="search"
-        placeholder="Search"
+        placeholder="Search for friends here"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={(e) => handleSearchEnter(e)}
@@ -50,7 +41,6 @@ const SearchBar = () => {
       <SearchDiv onClick={handleSearchClick}>
         <SearchIcon />
       </SearchDiv>
-      {users > 0 && <UserDropdown users={users} />}
     </Wrapper>
   );
 };
@@ -85,23 +75,6 @@ const SearchBarInput = styled.input`
   padding: 10px;
   border-radius: 10px;
   font-size: 1em;
-`;
-
-const Dropdown = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-  height: 35px;
-  margin: 5px;
-`;
-
-const DropdownItem = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 200px;
-  height: 35px;
 `;
 
 export default SearchBar;

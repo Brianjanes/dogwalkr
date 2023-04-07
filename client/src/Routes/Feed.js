@@ -71,7 +71,6 @@ const Feed = ({ loggedInUser }) => {
           <RightSide>
             <TopRight>
               <SearchDiv>
-                <FindFriends>Search for Friends!</FindFriends>
                 <SearchBar />
               </SearchDiv>
               <Friends>
@@ -206,11 +205,6 @@ const SearchDiv = styled.div`
   justify-content: center;
   height: 20%;
   background-color: whitesmoke;
-`;
-const FindFriends = styled.div`
-  display: flex;
-  font-weight: bold;
-  font-size: 1.25em;
 `;
 const Friends = styled.div`
   display: flex;

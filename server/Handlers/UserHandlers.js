@@ -150,10 +150,11 @@ const addUser = async (request, response) => {
 
 //this is handler for deleting a user
 const deleteUser = async (request, response) => {
-  const userName = request.params.userName;
+  const userName = String(request.params.userName);
+  console.log(userName);
   try {
     await client.connect();
-    const user = await usersCollection.findOne({ userName });
+    const user = await usersCollection.find({ userName }).toArray();
     if (!user) {
       return response.status(404).json({
         status: 404,

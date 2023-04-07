@@ -40,7 +40,7 @@ app.get("/profile/:userName", getUserByUserName);
 app.get("/user/check", checkUser);
 app.post("/user/addNewUser", addUser);
 app.patch("/updateProfile/:userName", updateOneUser);
-app.delete("/users/:userName", deleteUser);
+app.delete("/delete/:userName", deleteUser);
 
 // this is our endpoint for searching for users.
 app.get("/search/:search", searchHandler);

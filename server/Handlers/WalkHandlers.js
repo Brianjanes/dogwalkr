@@ -24,7 +24,11 @@ const addWalk = async (request, response) => {
       startTime,
       capacity,
       dateTime,
-      attendees: [],
+      attendees: [
+        {
+          userName,
+        },
+      ],
     };
     const walk = await postCollection.insertOne(newWalk);
     if (!walk.insertedId) {

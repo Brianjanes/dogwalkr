@@ -73,8 +73,6 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
         return response.json();
       })
       .then((data) => {
-        console.log("New Walk Created", data);
-
         setWalk(true);
         setModal(false);
       })

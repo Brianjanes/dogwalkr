@@ -80,11 +80,11 @@ const SearchBarInput = styled.input`
   align-items: center;
   justify-content: center;
   width: 300px;
-  height: 40px;
+  height: 30px;
   margin: 5px;
   padding: 10px;
   border-radius: 10px;
-  font-size: 1.1em;
+  font-size: 1em;
 `;
 
 const Dropdown = styled.div`

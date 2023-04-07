@@ -1,10 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 import glen from "../Images/glen.jpg";
+import { useNavigate } from "react-router-dom";
 
 const UserThumbnail = ({ name, avatar }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    navigate("/profile/glen");
+  };
+
   return (
-    <Wrapper>
+    <Wrapper
+      onClick={(e) => {
+        handleClick(e);
+      }}
+    >
       <ImageBox>
         <img src={glen} />
       </ImageBox>
@@ -28,10 +40,18 @@ const Wrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 4rem;
-  height: 4rem;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 10%;
+  margin: 1rem;
+  &:hover {
+    cursor: pointer;
+    background-color: #9595b7;
+  }
 `;
 
-const UserName = styled.h1``;
+const UserName = styled.div`
+  font-weight: bold;
+`;
 
 export default UserThumbnail;

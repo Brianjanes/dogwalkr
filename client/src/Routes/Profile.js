@@ -4,29 +4,147 @@ import { useEffect } from "react";
 import { useState } from "react";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import { FiMapPin } from "react-icons/fi";
+// import UploadWidget from "../Components/UploadWidget";
 
-const Profile = ({ user, loggedInUser }) => {
+const Profile = ({ loggedInUser, setLoggedInUser }) => {
+  const [user, setUser] = useState([]);
+  const userName = useParams().userName;
+  const [update, setUpdate] = useState(false);
+
+  const editProfile = (e) => {
+    e.preventDefault();
+    setUpdate(!update);
+  };
+
+  useEffect(() => {
+    const getUser = async () => {
+      await fetch(`/profile/${userName}`)
+        .then((response) => response.json())
+        .then((data) => {
+          setUser(data.data);
+        });
+    };
+    getUser();
+  }, []);
+
+  const [formInformation, setFormInformation] = useState({
+    firstName: "",
+    lastName: "",
+    image: "",
+    bio: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name } = e.target;
+    if (name === "firstName") {
+      setFormInformation({
+        ...formInformation,
+        firstName: e.target.value,
+      });
+    } else if (name === "lastName") {
+      setFormInformation({
+        ...formInformation,
+        lastName: e.target.value,
+      });
+    } else if (name === "bio") {
+      setFormInformation({
+        ...formInformation,
+        bio: e.target.value,
+      });
+    }
+  };
+
+  const handleUpdate = () => {
+    fetch(`/updateProfile/${userName}`, {
+      method: "PATCH",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formInformation),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Something went wrong!");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setUpdate(!update);
+      })
+      .catch((error) => {
+        console.log("Error:", error);
+      });
+  };
+
   return (
     <ProfileContainer>
-      {!loggedInUser ? (
+      {!user ? (
         <LoadingDiv>
           <LoadingSpinner />
         </LoadingDiv>
       ) : (
-        <>
+        <Wrapper>
           <LeftSide>
-            <ProfileImage src={loggedInUser.image} />
-            <AddFriend />
+            <ProfileImage src={user.image} />
           </LeftSide>
-
-          <ProfileInfo>
-            <Name>
-              {loggedInUser.firstName} {loggedInUser.lastName}
-            </Name>
-            <Location>{loggedInUser.location}</Location>
-            <Bio>{loggedInUser.bio}</Bio>
-          </ProfileInfo>
-        </>
+          <RightSide>
+            {update ? (
+              <>
+                <Update>
+                  First name:
+                  <NameInput
+                    placeholder={user.firstName}
+                    name="firstName"
+                    type="text"
+                    onChange={(e) => handleInputChange(e)}
+                  />
+                </Update>
+                <Update>
+                  Last Name:
+                  <NameInput
+                    placeholder={user.lastName}
+                    name="lastName"
+                    type="text"
+                    onChange={(e) => handleInputChange(e)}
+                  />
+                </Update>
+                <Update>
+                  Bio:
+                  <BioInput
+                    placeholder="Update your existing bio here!"
+                    name="bio"
+                    type="text"
+                    onChange={(e) => handleInputChange(e)}
+                  />
+                </Update>
+                <Button onClick={handleUpdate}>Save Changes</Button>
+              </>
+            ) : (
+              <ProfileInfo>
+                <UserInfo>
+                  {user.firstName} {user.lastName}
+                </UserInfo>
+                <UserInfo>
+                  <Pin />
+                  {user.location}
+                </UserInfo>
+                <UserInfo>{user.bio}</UserInfo>
+              </ProfileInfo>
+            )}
+            {!update && loggedInUser && loggedInUser.userName === userName && (
+              <Button
+                onClick={(e) => {
+                  editProfile(e);
+                }}
+              >
+                Edit Profile
+              </Button>
+            )}
+          </RightSide>
+        </Wrapper>
       )}
     </ProfileContainer>
   );
@@ -42,49 +160,78 @@ const ProfileContainer = styled.div`
   border-radius: 20px;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
 `;
-
-const ProfileImage = styled.img`
-  width: 200px;
-  height: 200px;
-  border-radius: 20px;
-  margin: 20px;
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
-
 const LoadingDiv = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
-
+const ProfileImage = styled.img`
+  width: 225px;
+  height: 225px;
+  border-radius: 50%;
+  border: 2px solid #c2c2d6;
+  margin: 20px;
+`;
 const LeftSide = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+const RightSide = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 10px;
 `;
-
 const ProfileInfo = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
 `;
-const Name = styled.p`
-  font-size: 2em;
-  margin: 10px;
+const Update = styled.div`
+  font-weight: bold;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
 `;
-
-const Location = styled.p`
-  font-size: 1.5em;
-  margin: 10px;
+const NameInput = styled.input`
+  font-size: 20px;
+  height: 30px;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
 `;
-
-const Bio = styled.p`
-  font-size: 1.25m;
-  margin: 10px;
+const BioInput = styled.textarea`
+  font-size: 1em;
+  padding: 10px;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  min-width: 300px;
+  min-height: 100px;
+  margin: 5px;
+  font-family: "Roboto", sans-serif;
+`;
+const UserInfo = styled.h1`
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const Pin = styled(FiMapPin)`
+  margin: 5px;
+`;
+const Button = styled.button`
+  padding: 10px 20px;
 `;
 
 export default Profile;

@@ -11,7 +11,8 @@ const {
 } = require("./Handlers/WalkHandlers");
 
 const {
-  getUser,
+  getUserByEmail,
+  getUserByUserName,
   getUsers,
   checkUser,
   addUser,
@@ -34,17 +35,18 @@ app.use(express.static("public"));
 
 // these are our users endpoints.
 app.get("/users", getUsers);
-app.get("/users/:email", getUser);
+app.get("/users/:email", getUserByEmail);
+app.get("/profile/:userName", getUserByUserName);
 app.get("/user/check", checkUser);
 app.post("/user/addNewUser", addUser);
-app.patch("/users/:userName", updateOneUser);
+app.patch("/updateProfile/:userName", updateOneUser);
 app.delete("/users/:userName", deleteUser);
 
 // this is our endpoint for searching for users.
 app.get("/search/:search", searchHandler);
 
 // these are our friends endpoints.
-app.post("/addFriend/:_id", addFriend);
+app.post("/addFriend", addFriend);
 app.delete("/friends/:_id", deleteFriend);
 
 //these are our post endpoints

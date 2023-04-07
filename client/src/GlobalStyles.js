@@ -71,11 +71,13 @@ export default createGlobalStyle`
     color: white;
     border: none;
     border-radius: 8px;
+    
   }
   button:hover {
     background-color: #666699;
     cursor: pointer;
     border: none;
+    box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
   }
   h1,
 h2,

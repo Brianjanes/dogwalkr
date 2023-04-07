@@ -9,6 +9,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 const Registration = () => {
   const [formInformation, setFormInformation] = useState({
     userName: "",
+    image: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -44,6 +45,7 @@ const Registration = () => {
     const { name } = e.target;
     if (name === "firstName") {
       setFormInformation({ ...formInformation, firstName: e.target.value });
+      setFormInformation({ ...formInformation, image: user.picture });
     } else if (name === "lastName") {
       setFormInformation({ ...formInformation, lastName: e.target.value });
     } else if (name === "location") {
@@ -195,6 +197,7 @@ const Bio = styled.textarea`
   border-radius: 5px;
   min-width: 300px;
   min-height: 100px;
+  font-family: "Roboto", sans-serif;
 `;
 const Container = styled.div`
   display: flex;

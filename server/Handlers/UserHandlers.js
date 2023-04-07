@@ -30,11 +30,31 @@ const getUsers = async (request, response) => {
   }
 };
 //this is our handler for getting a single user
-const getUser = async (request, response) => {
+const getUserByEmail = async (request, response) => {
   const email = request.params.email;
   try {
     await client.connect();
     const user = await usersCollection.findOne({ email });
+    return response.status(200).json({
+      status: 200,
+      data: user,
+    });
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({
+      status: 500,
+      data: "Internal server error",
+    });
+  } finally {
+    client.close();
+  }
+};
+
+const getUserByUserName = async (request, response) => {
+  const userName = request.params.userName;
+  try {
+    await client.connect();
+    const user = await usersCollection.findOne({ userName });
     return response.status(200).json({
       status: 200,
       data: user,
@@ -80,7 +100,7 @@ const checkUser = async (request, response) => {
 };
 
 const addUser = async (request, response) => {
-  const { firstName, lastName, userName, email, location, bio } =
+  const { image, firstName, lastName, userName, email, location, bio } =
     request.body.formInformation;
   try {
     await client.connect();
@@ -91,6 +111,7 @@ const addUser = async (request, response) => {
       email,
       location,
       bio,
+      image,
       friends: [
         {
           _id: "642e26065c986a1e56d5ff5d",
@@ -158,8 +179,8 @@ const deleteUser = async (request, response) => {
 
 const updateOneUser = async (request, response) => {
   const userName = request.params.userName;
-  const { firstName, lastName, email, location, petName, friends } =
-    request.body;
+  const { firstName, lastName, bio } = request.body;
+  console.log(request.body);
   try {
     await client.connect();
     const user = await usersCollection.findOne({ userName });
@@ -169,23 +190,28 @@ const updateOneUser = async (request, response) => {
         message: "User not found",
       });
     } else {
-      await usersCollection.updateOne(
+      const updateUser = await usersCollection.updateOne(
         { userName },
         {
           $set: {
             firstName,
             lastName,
-            email,
-            location,
-            petName,
-            friends,
+            bio,
           },
         }
       );
-      return response.status(200).json({
-        status: 200,
-        message: "User updated successfully",
-      });
+      if (updateUser.modifiedCount > 0) {
+        return response.status(200).json({
+          status: 200,
+          data: updateUser,
+          message: "User updated successfully",
+        });
+      } else {
+        return response.status(400).json({
+          status: 400,
+          message: "Something went wrong.",
+        });
+      }
     }
   } catch (error) {
     console.log(error);
@@ -200,9 +226,10 @@ const updateOneUser = async (request, response) => {
 
 module.exports = {
   getUsers,
-  getUser,
+  getUserByEmail,
   checkUser,
   addUser,
   deleteUser,
   updateOneUser,
+  getUserByUserName,
 };

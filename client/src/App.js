@@ -2,13 +2,13 @@ import NavBar from "../src/Components/NavBar";
 import SideBar from "../src/Components/SideBar";
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
-import Home from "./Home";
-import About from "./About";
+import Home from "./Routes/Home";
+import About from "./Routes/About";
 import LoginPage from "./LoginPage";
-import Registration from "./Registration";
-import Feed from "./Feed";
+import Registration from "./Routes/Registration";
+import Feed from "./Routes/Feed";
 import backgroundImg from "./Images/background.PNG";
-import Profile from "./Profile";
+import Profile from "./Routes/Profile";
 import { useState, useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -53,9 +53,12 @@ const App = () => {
               element={<Feed loggedInUser={loggedInUser} />}
             />
             <Route
-              path="/profile"
+              path="/profile/:userName"
               element={
-                <Profile user={currentUser} loggedInUser={loggedInUser} />
+                <Profile
+                  loggedInUser={loggedInUser}
+                  setLoggedInUser={setLoggedInUser}
+                />
               }
             />
           </Routes>

@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import SearchBar from "../Components/SearchBar";
 import UserThumbnail from "../Components/UserThumbnail";
 import { useAuth0 } from "@auth0/auth0-react";
+import LoadingSpinner from "../Components/LoadingSpinner";
 
 const Feed = ({ loggedInUser }) => {
   const [modal, setModal] = useState(false);
@@ -15,7 +16,7 @@ const Feed = ({ loggedInUser }) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    setModal(true);
+    setModal(!modal);
   };
 
   useEffect(() => {
@@ -25,65 +26,73 @@ const Feed = ({ loggedInUser }) => {
         setWalks(data.data);
       });
   }, []);
-  console.log(loggedInUser);
+
   return (
     <Wrapper>
-      {modal && (
-        <NewWalk
-          loggedInUser={loggedInUser}
-          modal={modal}
-          setModal={setModal}
-        />
-      )}
-
-      <LeftSide>
-        <ButtonDiv>
-          <NewWalkButton onClick={(e) => handleClick(e)}>
-            Create New Walk
-          </NewWalkButton>
-        </ButtonDiv>
-        <WalkInfoDiv>
-          {walks.map((walk) => {
-            return (
-              <WalkDiv key={walk._id}>
-                <WalkUserName> Username: {walk.userName}</WalkUserName>
-                <WalkLocation>Location: {walk.location}</WalkLocation>
-                <WalkStartTime>Start time: {walk.startTime}</WalkStartTime>
-                <WalkDuration>End Time: {walk.endTime}</WalkDuration>
-                <WalkCapacity>Number of Walkers:{walk.capacity}</WalkCapacity>
-                <Bottom>
-                  <PostTime>
-                    <Time>Posted Time:</Time> {walk.dateTime}
-                  </PostTime>
-                  <JoinWalkButton>Join Walk</JoinWalkButton>
-                </Bottom>
-              </WalkDiv>
-            );
-          })}
-        </WalkInfoDiv>
-      </LeftSide>
-      <RightSide>
-        <TopRight>
-          <SearchDiv>
-            <FindFriends>Search for Friends!</FindFriends>
-            <SearchBar />
-          </SearchDiv>
-          <Friends>
-            {loggedInUser &&
-              loggedInUser.friends.map((friend) => {
+      {!loggedInUser ? (
+        <LoadingDiv>
+          <LoadingSpinner />
+        </LoadingDiv>
+      ) : (
+        <>
+          {modal && (
+            <NewWalk
+              loggedInUser={loggedInUser}
+              modal={modal}
+              setModal={setModal}
+            />
+          )}
+          <LeftSide>
+            <ButtonDiv>
+              <NewWalkButton onClick={(e) => handleClick(e)}>
+                Create New Walk
+              </NewWalkButton>
+            </ButtonDiv>
+            <WalkInfoDiv>
+              {walks?.map((walk) => {
                 return (
-                  <UserThumbnail
-                    key={friend._id}
-                    user={friend}
-                    name={friend.firstName}
-                    avatar={friend.image}
-                  />
+                  <WalkDiv key={walk._id}>
+                    <WalkInfo> Username: {walk.userName}</WalkInfo>
+                    <WalkInfo>Location: {walk.location}</WalkInfo>
+                    <WalkInfo>Start time: {walk.startTime}</WalkInfo>
+                    <WalkInfo>End Time: {walk.endTime}</WalkInfo>
+                    <WalkInfo>Number of Walkers:{walk.capacity}</WalkInfo>
+                    <Bottom>
+                      <PostTime>
+                        <Time>Posted Time:</Time> {walk.dateTime}
+                      </PostTime>
+                      <JoinWalkButton>Join Walk</JoinWalkButton>
+                    </Bottom>
+                  </WalkDiv>
                 );
               })}
-          </Friends>
-        </TopRight>
-        <WalkHistory>Walk History</WalkHistory>
-      </RightSide>
+            </WalkInfoDiv>
+          </LeftSide>
+          <RightSide>
+            <TopRight>
+              <SearchDiv>
+                <FindFriends>Search for Friends!</FindFriends>
+                <SearchBar />
+              </SearchDiv>
+              <Friends>
+                {loggedInUser &&
+                  isAuthenticated &&
+                  loggedInUser.friends?.map((friend) => {
+                    return (
+                      <UserThumbnail
+                        key={friend._id}
+                        user={friend}
+                        name={friend.firstName}
+                        avatar={friend.image}
+                      />
+                    );
+                  })}
+              </Friends>
+            </TopRight>
+            <WalkHistory>Walk History</WalkHistory>
+          </RightSide>
+        </>
+      )}
     </Wrapper>
   );
 };
@@ -91,9 +100,15 @@ const Feed = ({ loggedInUser }) => {
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
-  gap: 20px;
+  gap: 1.5rem;
   width: 85%;
   height: 90%;
+`;
+const LoadingDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const LeftSide = styled.div`
   display: flex;
@@ -138,26 +153,14 @@ const WalkDiv = styled.div`
   padding: 10px;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
 `;
-const WalkUserName = styled.p`
+const WalkInfo = styled.span`
   font-weight: bold;
 `;
-const WalkLocation = styled.p`
-  font-weight: bold;
-`;
-const WalkDuration = styled.p`
-  font-weight: bold;
-`;
-const WalkStartTime = styled.p`
-  font-weight: bold;
-`;
-const WalkCapacity = styled.p`
-  font-weight: bold;
-`;
-const PostTime = styled.p`
+const PostTime = styled.span`
   display: flex;
   align-items: center;
 `;
-const Time = styled.p`
+const Time = styled.span`
   font-weight: bold;
   padding: 5px;
 `;
@@ -173,7 +176,7 @@ const RightSide = styled.div`
   flex-direction: column;
   width: 45%;
   height: 100%;
-  gap: 20px;
+  gap: 1.5rem;
 `;
 const WalkHistory = styled.div`
   padding: 10px;
@@ -191,6 +194,7 @@ const TopRight = styled.div`
   gap: 1.5rem;
   background-color: whitesmoke;
   height: 100%;
+  width: 100%;
   border-radius: 20px;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
   overflow-y: scroll;
@@ -201,21 +205,20 @@ const SearchDiv = styled.div`
   align-items: center;
   justify-content: center;
   height: 20%;
-
   background-color: whitesmoke;
 `;
-const FindFriends = styled.p`
+const FindFriends = styled.div`
   display: flex;
   font-weight: bold;
-  font-size: 1.5em;
+  font-size: 1.25em;
 `;
 const Friends = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
   height: 90%;
-  width: 90%;
+  width: 100%;
 `;
 
 export default Feed;

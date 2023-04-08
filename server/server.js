@@ -8,6 +8,7 @@ const {
   deleteWalk,
   getWalk,
   getWalks,
+  updateWalk,
 } = require("./Handlers/WalkHandlers");
 
 const {
@@ -51,9 +52,10 @@ app.delete("/friends/:_id", deleteFriend);
 
 //these are our post endpoints
 app.post("/walks/add", addWalk);
-app.delete("/walks/:_id", deleteWalk);
 app.get("/walks/:_id", getWalk);
 app.get("/walks", getWalks);
+app.delete("/deleteWalk/:_id", deleteWalk);
+app.post("/joinWalk/:_id", updateWalk);
 
 // this is our catch all endpoint.
 app.get("*", (request, response) => {

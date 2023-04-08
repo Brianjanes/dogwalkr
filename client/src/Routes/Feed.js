@@ -12,7 +12,7 @@ const Feed = ({ loggedInUser }) => {
   const [modal, setModal] = useState(false);
   const [walks, setWalks] = useState([]);
   const { isAuthenticated } = useAuth0();
-  const [friends, setFriends] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -25,7 +25,7 @@ const Feed = ({ loggedInUser }) => {
       .then((data) => {
         setWalks(data.data);
       });
-  }, []);
+  }, [modal, refresh]);
 
   return (
     <Wrapper>
@@ -35,38 +35,105 @@ const Feed = ({ loggedInUser }) => {
         </LoadingDiv>
       ) : (
         <>
-          {modal && (
-            <NewWalk
-              loggedInUser={loggedInUser}
-              modal={modal}
-              setModal={setModal}
-            />
-          )}
           <LeftSide>
             <ButtonDiv>
-              <NewWalkButton onClick={(e) => handleClick(e)}>
-                Create New Walk
-              </NewWalkButton>
+              <Button onClick={(e) => handleClick(e)}>Create New Walk</Button>
+              {modal && (
+                <NewWalk
+                  loggedInUser={loggedInUser}
+                  modal={modal}
+                  setModal={setModal}
+                />
+              )}
             </ButtonDiv>
-            <WalkInfoDiv>
+            <WalkCard>
               {walks?.map((walk) => {
+                const handleDeleteWalk = (e) => {
+                  e.preventDefault();
+                  fetch(`/deleteWalk/${walk._id}`, {
+                    method: "DELETE",
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      userName: loggedInUser.userName,
+                      _id: walk._id,
+                    }),
+                  })
+                    .then((response) => response.json())
+                    .then((data) => {
+                      if (data.status === 200) {
+                        setRefresh(!refresh);
+                      }
+                    });
+                };
+
+                const handleJoinWalk = (e) => {
+                  e.preventDefault();
+                  console.log(loggedInUser);
+                  fetch(`/joinWalk/${walk._id}`, {
+                    method: "POST",
+                    headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                      userName: loggedInUser.userName,
+                      _id: walk._id,
+                    }),
+                  })
+                    .then((response) => response.json())
+                    .then((data) => {
+                      console.log(data);
+                    });
+                };
+
                 return (
-                  <WalkDiv key={walk._id}>
-                    <WalkInfo> Username: {walk.userName}</WalkInfo>
-                    <WalkInfo>Location: {walk.location}</WalkInfo>
-                    <WalkInfo>Start time: {walk.startTime}</WalkInfo>
-                    <WalkInfo>End Time: {walk.endTime}</WalkInfo>
-                    <WalkInfo>Number of Walkers:{walk.capacity}</WalkInfo>
+                  <WalkPost key={walk._id}>
+                    {/* <WalkHostImage src={walk.userName.image} /> */}
+                    <Column>
+                      <WalkInfo>
+                        <WalkKey>UserName: </WalkKey> {walk.userName}
+                      </WalkInfo>
+                      <WalkInfo>
+                        <WalkKey>Location: </WalkKey> {walk.location}
+                      </WalkInfo>
+                      <WalkInfo>
+                        <WalkKey>Start time: </WalkKey> {walk.startTime}
+                      </WalkInfo>
+                      <WalkInfo>
+                        <WalkKey>End Time: </WalkKey> {walk.endTime}
+                      </WalkInfo>
+                      <WalkInfo>
+                        <WalkKey>Participants: </WalkKey>
+                        {walk.attendees.length}
+                      </WalkInfo>
+                    </Column>
                     <Bottom>
+                      {walk.userName !== loggedInUser.userName ? (
+                        <Button onClick={(e) => handleJoinWalk(e)}>
+                          Join Walk
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={(e) => {
+                            handleDeleteWalk(e);
+                          }}
+                        >
+                          Cancel Walk
+                        </Button>
+                      )}
                       <PostTime>
-                        <Time>Posted Time:</Time> {walk.dateTime}
+                        <TimeOfPost>
+                          <Time>Posted at:</Time> {walk.dateTime}
+                        </TimeOfPost>
                       </PostTime>
-                      <JoinWalkButton>Join Walk</JoinWalkButton>
                     </Bottom>
-                  </WalkDiv>
+                  </WalkPost>
                 );
               })}
-            </WalkInfoDiv>
+            </WalkCard>
           </LeftSide>
           <RightSide>
             <TopRight>
@@ -95,7 +162,26 @@ const Feed = ({ loggedInUser }) => {
     </Wrapper>
   );
 };
-
+const WalkKey = styled.span`
+  font-weight: bold;
+`;
+const WalkInfo = styled.div``;
+const TimeOfPost = styled.div`
+  font-size: 0.75rem;
+`;
+const WalkHostImage = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 10px;
+  border: 1px solid #c2c2d6;
+`;
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 45%;
+`;
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -120,10 +206,12 @@ const LeftSide = styled.div`
   border-radius: 20px;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
 `;
-const WalkInfoDiv = styled.div`
+const WalkCard = styled.div`
   overflow-y: scroll;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
 `;
 const ButtonDiv = styled.div`
@@ -131,33 +219,26 @@ const ButtonDiv = styled.div`
   justify-content: flex-end;
   margin: 1.5em 2em 0px 0px;
 `;
-const NewWalkButton = styled.button`
+const Button = styled.button`
   font-size: 1em;
   padding: 10px 20px;
   margin: 10px;
 `;
-const JoinWalkButton = styled.button`
-  font-size: 1em;
-  padding: 10px 20px;
-  margin: 10px;
-`;
-const WalkDiv = styled.div`
+const WalkPost = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
   width: 96%;
+  height: 120px;
   margin: 10px;
-  padding: 10px;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
-`;
-const WalkInfo = styled.span`
-  font-weight: bold;
 `;
 const PostTime = styled.span`
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  gap: 10px;
 `;
 const Time = styled.span`
   font-weight: bold;
@@ -165,8 +246,10 @@ const Time = styled.span`
 `;
 const Bottom = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   justify-content: space-between;
+  gap: 30px;
 `;
 
 //right side of the page

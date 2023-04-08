@@ -10,6 +10,7 @@ const options = {
 const client = new MongoClient(MONGO_URI, options);
 const db = client.db("DOGWALKR");
 const postCollection = db.collection("posts");
+const ObjectId = require("mongodb").ObjectId;
 
 //this is our handler for adding a new post
 const addWalk = async (request, response) => {
@@ -24,11 +25,7 @@ const addWalk = async (request, response) => {
       startTime,
       capacity,
       dateTime,
-      attendees: [
-        {
-          userName,
-        },
-      ],
+      attendees: [{}],
     };
     const walk = await postCollection.insertOne(newWalk);
     if (!walk.insertedId) {
@@ -55,27 +52,25 @@ const addWalk = async (request, response) => {
 
 //this is out handler for deleting a single post
 const deleteWalk = async (request, response) => {
-  const _id = request.params._id;
+  const { _id } = request.body;
   try {
     await client.connect();
-    const walk = await postCollection.deleteOne({ _id });
-    if (!walk.deletedCount) {
-      return response.status(502).json({
-        status: 502,
-        data: "Database error.",
-      });
-    } else {
+    const deleteRequest = await postCollection.deleteOne({
+      _id: new ObjectId(_id),
+    });
+    console.log(deleteRequest);
+    if (deleteRequest.deletedCount !== 0) {
       return response.status(200).json({
         status: 200,
         message: "Walk deleted successfully.",
-        data: walk,
+        data: deleteRequest,
       });
     }
   } catch (error) {
     console.log(error);
     return response.status(500).json({
       status: 500,
-      data: "Internal server error.",
+      data: "Internal Server Error.",
     });
   } finally {
     client.close();
@@ -136,4 +131,39 @@ const getWalks = async (request, response) => {
   }
 };
 
-module.exports = { addWalk, getWalk, deleteWalk, getWalks };
+const updateWalk = async (request, response) => {
+  const { userName, _id } = request.body;
+  try {
+    await client.connect();
+    const findWalk = await postCollection.find({ _id }).toArray();
+    if (!findWalk) {
+      return response.status(404).json({
+        status: 404,
+        message: "Walk not found.",
+      });
+    } else {
+      await postCollection.updateOne(
+        { _id },
+        {
+          $push: {
+            attendees: userName,
+          },
+        }
+      );
+      return response.status(200).json({
+        status: 200,
+        data: findWalk,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({
+      status: 500,
+      data: "Internal server error.",
+    });
+  } finally {
+    client.close();
+  }
+};
+
+module.exports = { addWalk, getWalk, deleteWalk, getWalks, updateWalk };

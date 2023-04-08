@@ -6,15 +6,16 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 
 const NewWalk = ({ modal, setModal, loggedInUser }) => {
   const [formIsValid, setFormIsValid] = useState(false);
+  const [walk, setWalk] = useState(false);
   const [formInformation, setFormInformation] = useState({
     userName: loggedInUser.userName,
+    image: loggedInUser.image,
     location: "",
     startTime: "",
     endTime: "",
     capacity: "",
     dateTime: new Date().toLocaleString(),
   });
-  const [walk, setWalk] = useState(false);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -52,6 +53,11 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
           ...formInformation,
           userName: loggedInUser.userName,
         });
+      } else if (name === "image") {
+        setFormInformation({
+          ...formInformation,
+          image: loggedInUser.image,
+        });
       }
     }
   };
@@ -82,60 +88,60 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
   };
 
   return (
-    <>
-      <Container>
-        {!loggedInUser ? (
-          <LoadingDiv>
-            <LoadingSpinner />
-          </LoadingDiv>
-        ) : (
-          <>
-            <ExitDiv>
-              <FiX onClick={(e) => handleClick(e)} />
-            </ExitDiv>
-            <Info>
-              <InputReqs>Location: </InputReqs>
-              <InputField
-                type="text"
-                name="location"
-                placeholder="Where to start?"
-                onChange={(e) => handleInputChange(e)}
-              />
-            </Info>
-            <Info>
-              <InputReqs>Start time: </InputReqs>
-              <InputField
-                type="text"
-                name="startTime"
-                placeholder="Start time"
-                onChange={(e) => handleInputChange(e)}
-              />
-            </Info>
-            <Info>
-              <InputReqs>End time: </InputReqs>
-              <InputField
-                type="text"
-                name="endTime"
-                placeholder="End time"
-                onChange={(e) => handleInputChange(e)}
-              />
-            </Info>
-            <Info>
-              <InputReqs>Capacity: </InputReqs>
-              <InputField
-                type="text"
-                name="capacity"
-                placeholder="How many people?"
-                onChange={(e) => handleInputChange(e)}
-              />
-            </Info>
+    <Container>
+      {!loggedInUser ? (
+        <LoadingDiv>
+          <LoadingSpinner />
+        </LoadingDiv>
+      ) : (
+        <>
+          <ExitDiv>
+            <FiX onClick={(e) => handleClick(e)} />
+          </ExitDiv>
+          <Info>
+            <InputReqs>Location: </InputReqs>
+            <InputField
+              type="text"
+              name="location"
+              placeholder="Where to start?"
+              onChange={(e) => handleInputChange(e)}
+            />
+          </Info>
+          <Info>
+            <InputReqs>Start time: </InputReqs>
+            <InputField
+              type="text"
+              name="startTime"
+              placeholder="Start time"
+              onChange={(e) => handleInputChange(e)}
+            />
+          </Info>
+          <Info>
+            <InputReqs>End time: </InputReqs>
+            <InputField
+              type="text"
+              name="endTime"
+              placeholder="End time"
+              onChange={(e) => handleInputChange(e)}
+            />
+          </Info>
+          <Info>
+            <InputReqs>Capacity: </InputReqs>
+            <InputField
+              type="text"
+              name="capacity"
+              placeholder="How many people?"
+              onChange={(e) => handleInputChange(e)}
+            />
+          </Info>
+          <ExitDiv>
             <Button onClick={(e) => handleNewWalk(e)} disabled={!formIsValid}>
               Create Walk
             </Button>
-          </>
-        )}
-      </Container>
-    </>
+          </ExitDiv>
+        </>
+      )}
+    </Container>
   );
 };
 
@@ -151,11 +157,17 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 375px;
-  height: 375px;
+  width: 400px;
+  height: 275px;
   border-radius: 20px;
   background-color: whitesmoke;
-  z-index: 1;
+  z-index: 100;
+  box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
+  position: fixed;
+  top: 200;
+  right: 200;
+  bottom: 200;
+  left: 200;
 `;
 const Info = styled.div`
   padding: 5px;
@@ -163,10 +175,11 @@ const Info = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 80%;
+  margin-bottom: 10px;
 `;
 const Button = styled.button`
-  font-size: 1em;
-  padding: 7px 15px;
+  font-size: 1rem;
+  padding: 10px 25px;
   margin: 10px;
 `;
 const InputReqs = styled.div`
@@ -176,7 +189,8 @@ const InputField = styled.input`
   border-radius: 5px;
 `;
 const ExitDiv = styled.div`
-  width: 100%;
+  width: 95%;
+  font-size: 1.5rem;
   display: flex;
   justify-content: flex-end;
   &:hover {

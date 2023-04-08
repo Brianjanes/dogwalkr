@@ -31,7 +31,7 @@ const Profile = ({ loggedInUser, setLoggedInUser }) => {
         });
     };
     getUser();
-  }, []);
+  }, [update]);
 
   const [formInformation, setFormInformation] = useState({
     firstName: "",
@@ -76,12 +76,15 @@ const Profile = ({ loggedInUser, setLoggedInUser }) => {
         return response.json();
       })
       .then((data) => {
-        setUpdate(!update);
+        if (data.status === 200) {
+          setUpdate(!update);
+        }
       })
       .catch((error) => {
         console.log("Error:", error);
       });
   };
+
   const handleDelete = async () => {
     await fetch(`/delete/${loggedInUser.userName}`, {
       method: "DELETE",

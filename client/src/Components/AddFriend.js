@@ -1,11 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 
-const AddFriend = () => {
+const AddFriend = ({ loggedInUser, user }) => {
   const handleClick = (e) => {
     e.preventDefault();
     console.log("clicked");
-    fetch("/addFriend")
+    fetch(`/addFriend/${user._id}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        loggedUserId: loggedInUser._id,
+        targetUserId: user._id,
+      }),
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -13,13 +23,17 @@ const AddFriend = () => {
   };
 
   return (
-    <Button
-      onClick={(e) => {
-        handleClick(e);
-      }}
-    >
-      Add friend
-    </Button>
+    <>
+      {loggedInUser && (
+        <Button
+          onClick={(e) => {
+            handleClick(e);
+          }}
+        >
+          Add friend
+        </Button>
+      )}
+    </>
   );
 };
 

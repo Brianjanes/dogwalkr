@@ -113,6 +113,7 @@ const Profile = ({ loggedInUser, setLoggedInUser }) => {
         <Wrapper>
           <LeftSide>
             <ProfileImage src={user.image} />
+            <AddFriend loggedInUser={loggedInUser} user={user} />
           </LeftSide>
           <RightSide>
             {update ? (

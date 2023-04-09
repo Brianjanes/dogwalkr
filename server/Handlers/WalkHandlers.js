@@ -25,7 +25,7 @@ const addWalk = async (request, response) => {
       startTime,
       capacity,
       dateTime,
-      attendees: [{}],
+      attendees: [userName],
     };
     const walk = await postCollection.insertOne(newWalk);
     if (!walk.insertedId) {
@@ -132,7 +132,9 @@ const getWalks = async (request, response) => {
 };
 
 const updateWalk = async (request, response) => {
-  const { userName, _id } = request.body;
+  const { userName } = request.body;
+  const { _id } = request.params;
+  console.log(userName);
   try {
     await client.connect();
     const findWalk = await postCollection.find({ _id }).toArray();
@@ -143,7 +145,7 @@ const updateWalk = async (request, response) => {
       });
     } else {
       await postCollection.updateOne(
-        { _id },
+        { _id: new ObjectId(_id) },
         {
           $push: {
             attendees: userName,

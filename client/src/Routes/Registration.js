@@ -8,6 +8,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const Registration = () => {
   const { user } = useAuth0();
+
   const [formInformation, setFormInformation] = useState({
     userName: "",
     image: user.picture,

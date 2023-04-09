@@ -71,7 +71,7 @@ const Feed = ({ loggedInUser }) => {
 
                 const handleJoinWalk = (e) => {
                   e.preventDefault();
-                  console.log(loggedInUser);
+                  console.log(walk._id);
                   fetch(`/joinWalk/${walk._id}`, {
                     method: "POST",
                     headers: {
@@ -80,12 +80,11 @@ const Feed = ({ loggedInUser }) => {
                     },
                     body: JSON.stringify({
                       userName: loggedInUser.userName,
-                      _id: walk._id,
                     }),
                   })
                     .then((response) => response.json())
                     .then((data) => {
-                      console.log(data);
+                      console.log(data.data);
                     });
                 };
 

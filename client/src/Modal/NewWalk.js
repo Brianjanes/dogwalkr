@@ -79,8 +79,10 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
         return response.json();
       })
       .then((data) => {
-        setWalk(true);
-        setModal(false);
+        if (data.status === 201) {
+          setWalk(true);
+          setModal(false);
+        }
       })
       .catch((error) => {
         console.log("Error: ", error);

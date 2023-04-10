@@ -1,5 +1,6 @@
 import React from "react";
 import AddFriend from "../Components/AddFriend";
+import RemoveFriend from "../Components/RemoveFriend";
 import { useEffect } from "react";
 import { useState } from "react";
 import LoadingSpinner from "../Components/LoadingSpinner";
@@ -114,6 +115,7 @@ const Profile = ({ loggedInUser, setLoggedInUser }) => {
           <LeftSide>
             <ProfileImage src={user.image} />
             <AddFriend loggedInUser={loggedInUser} user={user} />
+            <RemoveFriend loggedInUser={loggedInUser} user={user} />
           </LeftSide>
           <RightSide>
             {update ? (

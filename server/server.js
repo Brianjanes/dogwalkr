@@ -47,8 +47,8 @@ app.delete("/delete/:userName", deleteUser);
 app.get("/search/:search", searchHandler);
 
 // these are our friends endpoints.
-app.post("/addFriend/:_id", addFriend);
-app.delete("/deleteFriend/:_id", deleteFriend);
+app.post("/addFriend/", addFriend);
+app.delete("/deleteFriend/", deleteFriend);
 
 //these are our post endpoints
 app.post("/walks/add", addWalk);

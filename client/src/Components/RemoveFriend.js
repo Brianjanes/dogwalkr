@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 
-const AddFriend = ({ loggedInUser, user }) => {
+const RemoveFriend = ({ loggedInUser, user }) => {
   const handleClick = (e) => {
     e.preventDefault();
-    fetch(`/addFriend`, {
-      method: "POST",
+    fetch(`/deleteFriend`, {
+      method: "DELETE",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const AddFriend = ({ loggedInUser, user }) => {
             handleClick(e);
           }}
         >
-          Add friend
+          Remove friend
         </Button>
       )}
     </>
@@ -43,4 +43,4 @@ const Button = styled.button`
   font-size: 1.1em;
 `;
 
-export default AddFriend;
+export default RemoveFriend;

@@ -15,7 +15,6 @@ const ObjectId = require("mongodb").ObjectId;
 //this handler is for adding a friend
 const addFriend = async (request, response) => {
   const { loggedUserId, targetUserId } = request.body;
-  console.log(loggedUserId, targetUserId);
   try {
     await client.connect();
     const findUser = await usersCollection.findOne({
@@ -49,23 +48,24 @@ const addFriend = async (request, response) => {
 
 // this handler is for removing a friend
 const deleteFriend = async (request, response) => {
-  const { friendId } = request.body;
+  const { loggedUserId, targetUserId } = request.body;
+
   try {
-    const user = await usersCollection.findOne({ _id: friendId });
-    if (!user) {
-      return response.status(404).json({
-        status: 404,
-        message: "User not found",
+    await client.connect();
+    const findUser = await usersCollection.findOne({
+      _id: new ObjectId(loggedUserId),
+    });
+    if (findUser.friends.includes(targetUserId)) {
+      const removeFriend = await usersCollection.updateOne(
+        { _id: findUser._id },
+        { $pull: { friends: targetUserId } }
+      );
+      return response.status(200).json({
+        status: 200,
+        message: "Friend removed successfully",
+        data: removeFriend,
       });
     }
-    await usersCollection.updateOne(
-      { _id: user._id },
-      { $pull: { friends: friendId } }
-    );
-    return response.status(200).json({
-      status: 200,
-      message: "Friend deleted successfully",
-    });
   } catch (error) {
     console.log(error);
     response.status(500).json({

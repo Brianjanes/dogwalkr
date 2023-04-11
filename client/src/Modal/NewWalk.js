@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { FiX } from "react-icons/fi";
 import { useState } from "react";
-import LoadingSpinner from "../Components/LoadingSpinner";
+import ReactMap from "../Components/ReactMap";
 
 const NewWalk = ({ modal, setModal, loggedInUser }) => {
   const [formIsValid, setFormIsValid] = useState(false);
   const [walk, setWalk] = useState(false);
+  const [map, setMap] = useState(false);
   const [formInformation, setFormInformation] = useState({
     userName: loggedInUser.userName,
     image: loggedInUser.image,
@@ -19,7 +20,12 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    setModal(false);
+    setModal(!modal);
+  };
+
+  const handleMap = (e) => {
+    e.preventDefault();
+    setMap(!map);
   };
 
   const handleInputChange = (e) => {
@@ -81,7 +87,7 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
       .then((data) => {
         if (data.status === 201) {
           setWalk(true);
-          setModal(false);
+          setModal(!modal);
         }
       })
       .catch((error) => {
@@ -103,6 +109,15 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
           onChange={(e) => handleInputChange(e)}
         />
       </Info>
+      <Button
+        onClick={(e) => {
+          handleMap(e);
+        }}
+      >
+        Map
+      </Button>
+      {map && <ReactMap mapModal={map} setMapModal={setMap} />}
+
       <Info>
         <InputReqs>Start time: </InputReqs>
         <InputField
@@ -139,25 +154,18 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
   );
 };
 
-const LoadingDiv = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 400px;
-  height: 275px;
+  height: 350px;
   border-radius: 20px;
   background-color: whitesmoke;
   z-index: 100;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
-  position: fixed;
+  position: absolute;
   top: 200;
   right: 200;
   bottom: 200;

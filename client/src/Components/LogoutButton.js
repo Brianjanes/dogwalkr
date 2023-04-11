@@ -1,6 +1,5 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import styled from "styled-components";
-
 import React from "react";
 
 const LogoutButton = () => {
@@ -9,7 +8,7 @@ const LogoutButton = () => {
 };
 
 const Button = styled.button`
-  height: 40px;
+  height: 30px;
   width: 125px;
   font-size: 1.1em;
 `;

@@ -107,13 +107,14 @@ const getWalk = async (request, response) => {
 };
 
 const getWalks = async (request, response) => {
+  console.log("request");
   try {
     await client.connect();
-    const walks = await postCollection.find({}).toArray();
+    const walks = await postCollection.find().toArray();
     if (!walks) {
       return response.status(502).json({
         status: 502,
-        data: "Database error.",
+        data: "The are no walks.",
       });
     } else {
       return response.status(200).json({
@@ -122,7 +123,7 @@ const getWalks = async (request, response) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return response.status(500).json({
       status: 500,
       data: "Internal server error.",

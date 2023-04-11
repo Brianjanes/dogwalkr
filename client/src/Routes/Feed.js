@@ -13,8 +13,6 @@ const Feed = () => {
   const [refresh, setRefresh] = useState(false);
   const [friends, setFriends] = useState([]);
 
-  console.log(loggedInUser);
-
   useEffect(() => {
     fetch("/walks")
       .then((response) => response.json())
@@ -23,20 +21,62 @@ const Feed = () => {
           setWalks(data.data);
         }
       });
-
-    // if (loggedInUser) {
-    //   fetch(`/userId/${loggedInUser.friends}`)
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       console.log(data.data);
-    //       setFriends(data.data);
-    //     });
-    // }
-  }, [modal, refresh]);
+    if (loggedInUser) {
+      fetch(`/friends/${loggedInUser.friends}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status === 200) {
+            console.log(data);
+            setFriends(data.data);
+          }
+        });
+    }
+  }, [modal, refresh, loggedInUser]);
 
   const handleClick = (e) => {
     e.preventDefault();
     setModal(!modal);
+  };
+
+  const handleDeleteWalk = (e, _id) => {
+    e.preventDefault();
+    fetch(`/deleteWalk/${_id}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userName: loggedInUser.userName,
+        _id: _id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setRefresh(!refresh);
+        }
+      });
+  };
+
+  const handleJoinWalk = (e, _id) => {
+    e.preventDefault();
+    fetch(`/joinWalk/${_id}`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userName: loggedInUser.userName,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setRefresh(!refresh);
+        }
+      });
   };
 
   return (
@@ -49,7 +89,7 @@ const Feed = () => {
         <>
           <LeftSide>
             <ButtonDiv>
-              <Button onClick={(e) => handleClick(e)}>Create New Walk</Button>
+              <Button onClick={(e) => handleClick(e)}>New Walk</Button>
               {modal && (
                 <NewWalk
                   loggedInUser={loggedInUser}
@@ -60,48 +100,6 @@ const Feed = () => {
             </ButtonDiv>
             <WalkCard>
               {walks?.map((walk) => {
-                const handleDeleteWalk = (e) => {
-                  e.preventDefault();
-                  fetch(`/deleteWalk/${walk._id}`, {
-                    method: "DELETE",
-                    headers: {
-                      Accept: "application/json",
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      userName: loggedInUser.userName,
-                      _id: walk._id,
-                    }),
-                  })
-                    .then((response) => response.json())
-                    .then((data) => {
-                      if (data.status === 200) {
-                        setRefresh(!refresh);
-                      }
-                    });
-                };
-
-                const handleJoinWalk = (e) => {
-                  e.preventDefault();
-                  console.log(walk._id);
-                  fetch(`/joinWalk/${walk._id}`, {
-                    method: "POST",
-                    headers: {
-                      Accept: "application/json",
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      userName: loggedInUser.userName,
-                    }),
-                  })
-                    .then((response) => response.json())
-                    .then((data) => {
-                      if (data.status === 200) {
-                        setRefresh(!refresh);
-                      }
-                    });
-                };
-
                 return (
                   <WalkPost key={walk._id}>
                     {/* <WalkHostImage src={walk.userName.image} /> */}
@@ -125,15 +123,11 @@ const Feed = () => {
                     </Column>
                     <Bottom>
                       {walk.userName !== loggedInUser.userName ? (
-                        <Button onClick={(e) => handleJoinWalk(e)}>
+                        <Button onClick={(e) => handleJoinWalk(e, walk._id)}>
                           Join Walk
                         </Button>
                       ) : (
-                        <Button
-                          onClick={(e) => {
-                            handleDeleteWalk(e);
-                          }}
-                        >
+                        <Button onClick={(e) => handleDeleteWalk(e, walk._id)}>
                           Cancel Walk
                         </Button>
                       )}
@@ -158,6 +152,7 @@ const Feed = () => {
                   return (
                     <div key={friend._id + 1}>
                       <UserThumbnail
+                        userName={friend.userName}
                         user={friend}
                         name={friend.firstName}
                         avatar={friend.image}
@@ -167,7 +162,7 @@ const Feed = () => {
                 })} */}
               </Friends>
             </TopRight>
-            <WalkHistory>Walk History Coming soon!</WalkHistory>
+            <WalkHistory>Walk History coming soon</WalkHistory>
           </RightSide>
         </>
       )}

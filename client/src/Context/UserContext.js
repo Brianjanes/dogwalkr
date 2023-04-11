@@ -14,7 +14,7 @@ export const UserProvider = ({ children }) => {
         .then((data) => {
           if (data.status === 200) {
             setLoggedInUser(data.data);
-            console.log(data);
+            console.log(data.data);
           } else {
             throw new Error("User context error:", data);
           }

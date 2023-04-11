@@ -9,6 +9,7 @@ import Registration from "./Routes/Registration";
 import Feed from "./Routes/Feed";
 import backgroundImg from "./Images/background.PNG";
 import Profile from "./Routes/Profile";
+import ReactMap from "./Components/ReactMap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
             <Route path="/register" element={<Registration />} />
             <Route path="/homefeed" element={<Feed />} />
             <Route path="/:userName" element={<Profile />} />
+            <Route path="/map" element={<ReactMap />} />
           </Routes>
         </Container>
         <BackgroundImage></BackgroundImage>

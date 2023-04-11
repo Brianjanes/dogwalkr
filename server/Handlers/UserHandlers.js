@@ -67,10 +67,13 @@ const getUserById = async (request, response) => {
 };
 //this is our handler for getting a single user
 const getUserByEmail = async (request, response) => {
-  const email = request.params.email;
+  const { email } = request.params;
+  const newClient = new MongoClient(MONGO_URI, options);
+  const newDb = newClient.db("DOGWALKR");
+  const newUsersCollection = newDb.collection("users");
   try {
-    await client.connect();
-    const user = await usersCollection.findOne({ email });
+    await newClient.connect();
+    const user = await newUsersCollection.findOne({ email });
     if (user) {
       return response.status(200).json({
         status: 200,
@@ -90,7 +93,7 @@ const getUserByEmail = async (request, response) => {
   } catch (error) {
     console.log("ERROR:", error);
   } finally {
-    client.close();
+    newClient.close();
   }
 };
 
@@ -124,6 +127,7 @@ const getUserByUserName = async (request, response) => {
 //this is our handler for checking if a user should be sent to further registration
 const checkUser = async (request, response) => {
   const { email } = request.query;
+  console.log("check");
   try {
     await client.connect();
     const user = await usersCollection.findOne({ email });
@@ -140,7 +144,7 @@ const checkUser = async (request, response) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     return response.status(500).json({
       status: 500,
       data: error,

@@ -67,6 +67,9 @@ export default createGlobalStyle`
   }
 
   button {
+    width: 150px;
+    height: 40px;
+    text-align: center;
     background-color: #7575a3;
     color: white;
     border: none;

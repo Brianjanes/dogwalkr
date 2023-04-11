@@ -77,4 +77,34 @@ const deleteFriend = async (request, response) => {
   }
 };
 
-module.exports = { addFriend, deleteFriend };
+const getFriendsById = async (request, response) => {
+  const { _id } = request.params;
+  try {
+    await client.connect();
+    const friends = await usersCollection.find([_id]);
+
+    console.log(typeof friends);
+    if (!friends) {
+      return response.status(404).json({
+        status: 404,
+        message: "No friends found.",
+      });
+    } else {
+      return response.status(200).json({
+        status: 200,
+        message: "Friends found",
+        data: friends,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    response.status(500).json({
+      status: 500,
+      message: "Internal server error",
+    });
+  } finally {
+    client.close();
+  }
+};
+
+module.exports = { addFriend, deleteFriend, getFriendsById };

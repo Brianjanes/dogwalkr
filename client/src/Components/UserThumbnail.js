@@ -3,11 +3,11 @@ import styled from "styled-components";
 import tom from "../Images/tom.jpg";
 import { useNavigate } from "react-router-dom";
 
-const UserThumbnail = ({ user }) => {
+const UserThumbnail = ({ user, name, avatar, userName }) => {
   const navigate = useNavigate();
   const handleClick = (e) => {
     e.preventDefault();
-    navigate(`/${user.userName}`);
+    navigate(`/${userName}`);
   };
 
   return (
@@ -17,9 +17,9 @@ const UserThumbnail = ({ user }) => {
       }}
     >
       <ImageBox>
-        <img src={user.image} />
+        <img src={avatar} />
       </ImageBox>
-      <UserName>{user.userName}</UserName>
+      <UserName>{name}</UserName>
     </Wrapper>
   );
 };
@@ -42,7 +42,8 @@ const Wrapper = styled.div`
   width: 6.5rem;
   height: 7rem;
   border-radius: 10%;
-  margin: 1rem;
+  margin: 0.75rem;
+  border: 1px solid black;
   &:hover {
     cursor: pointer;
     border: 2px solid #9595b7;

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import LoadingSpinner from "../Components/LoadingSpinner";
@@ -7,7 +7,6 @@ import { UserContext } from "../Context/UserContext";
 
 const Registration = () => {
   const { loggedInUser } = useContext(UserContext);
-
   const { user } = useAuth0();
   const [formInformation, setFormInformation] = useState({
     userName: "",
@@ -18,6 +17,7 @@ const Registration = () => {
     location: "",
     bio: "",
   });
+
   const [formReceived, setFormReceived] = useState(false);
   const navigate = useNavigate();
 
@@ -35,9 +35,7 @@ const Registration = () => {
       .then((data) => {
         if (data.status === 200) {
           setFormReceived(true);
-          setTimeout(() => {
-            navigate("/homefeed");
-          }, 3000);
+          navigate("/homefeed");
         }
       });
   };
@@ -123,7 +121,7 @@ const Registration = () => {
                   <InputField
                     type="text"
                     name="location"
-                    placeholder="Your city"
+                    placeholder="Your City and Province"
                     onChange={(e) => handleInputChange(e)}
                   />
                 </RequiredInfo>

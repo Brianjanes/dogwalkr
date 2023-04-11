@@ -22,7 +22,11 @@ const {
   getUserById,
 } = require("./Handlers/UserHandlers");
 
-const { addFriend, deleteFriend } = require("./Handlers/FriendsHandlers");
+const {
+  addFriend,
+  deleteFriend,
+  getFriendsById,
+} = require("./Handlers/FriendsHandlers");
 
 const { searchHandler } = require("./Handlers/searchHandler");
 
@@ -49,6 +53,7 @@ app.delete("/delete/:userName", deleteUser);
 app.get("/search/:search", searchHandler);
 
 // these are our friends endpoints.
+app.get("/friends/:_id", getFriendsById);
 app.post("/addFriend/", addFriend);
 app.delete("/deleteFriend/", deleteFriend);
 

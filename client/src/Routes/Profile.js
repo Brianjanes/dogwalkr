@@ -1,22 +1,21 @@
-import React from "react";
-import AddFriend from "../Components/AddFriend";
-import RemoveFriend from "../Components/RemoveFriend";
-import { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { FiMapPin } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import FriendButton from "../Components/FriendButton";
+import { UserContext } from "../Context/UserContext";
 // import UploadWidget from "../Components/UploadWidget";
 
-const Profile = ({ loggedInUser, setLoggedInUser }) => {
+const Profile = () => {
+  const { loggedInUser } = useContext(UserContext);
   const [user, setUser] = useState([]);
   const userName = useParams().userName;
   const [update, setUpdate] = useState(false);
   const navigate = useNavigate();
   const { logout } = useAuth0();
+  const [refresh, setRefresh] = useState(false);
 
   const editProfile = (e) => {
     e.preventDefault();
@@ -24,15 +23,15 @@ const Profile = ({ loggedInUser, setLoggedInUser }) => {
   };
 
   useEffect(() => {
-    const getUser = async () => {
-      await fetch(`/profile/${userName}`)
-        .then((response) => response.json())
-        .then((data) => {
+    fetch(`/profile/${userName}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 200) {
+          console.log(data.data);
           setUser(data.data);
-        });
-    };
-    getUser();
-  }, [update]);
+        }
+      });
+  }, [update, refresh]);
 
   const [formInformation, setFormInformation] = useState({
     firstName: "",
@@ -104,9 +103,44 @@ const Profile = ({ loggedInUser, setLoggedInUser }) => {
       });
   };
 
+  const handleAddFriend = () => {
+    fetch(`/addFriend`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        loggedUserId: loggedInUser._id,
+        targetUserId: user._id,
+      }),
+    }).then((response) => response.json());
+    setRefresh(!refresh);
+  };
+
+  const handleRemoveFriend = () => {
+    fetch(`/deleteFriend`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        loggedUserId: loggedInUser._id,
+        targetUserId: user._id,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setRefresh(!refresh);
+        }
+      });
+  };
+
   return (
     <ProfileContainer>
-      {!user ? (
+      {!loggedInUser ? (
         <LoadingDiv>
           <LoadingSpinner />
         </LoadingDiv>
@@ -114,8 +148,17 @@ const Profile = ({ loggedInUser, setLoggedInUser }) => {
         <Wrapper>
           <LeftSide>
             <ProfileImage src={user.image} />
-            <AddFriend loggedInUser={loggedInUser} user={user} />
-            <RemoveFriend loggedInUser={loggedInUser} user={user} />
+            {!loggedInUser.friends.includes(user._id) ? (
+              <FriendButton
+                handleFunction={handleAddFriend}
+                title="Add Friend"
+              />
+            ) : (
+              <FriendButton
+                handleFunction={handleRemoveFriend}
+                title="Remove Friend"
+              />
+            )}
           </LeftSide>
           <RightSide>
             {update ? (
@@ -271,118 +314,3 @@ const ButtonDiv = styled.div`
   align-items: center;
 `;
 export default Profile;
-
-// import { useAuth0 } from "@auth0/auth0-react";
-// import styled from "styled-components";
-// import React from "react";
-// import { useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
-
-// const Profile = () => {
-//   const { user, isAuthenticated } = useAuth0();
-//   const navigate = useNavigate();
-
-//   useEffect(() => {
-//     const checkUser = async (providedUser) => {
-//       try {
-//         if (isAuthenticated) {
-//           const response = await fetch("/user/add", {
-//             method: "GET",
-//             headers: {
-//               Accept: "application/json",
-//               "Content-type": "application/json",
-//               "Access-Control-Allow-Origin": "*",
-//             },
-//           });
-//           const data = await response.json();
-//           if (data.inDB === true) {
-//             setLoading(false);
-//             console.log(data);
-//             navigate("/register");
-//           } else {
-//             navigate("/register");
-//           }
-//         }
-//       } catch (error) {
-//         console.error("Error adding user:", error);
-//       }
-//     };
-//     checkUser(user);
-//   }, [isAuthenticated]);
-
-//   return (
-//     <Container>
-//       {isAuthenticated && (
-//         <>
-//           <Button onSubmit={handleClick}>Edit Profile</Button>
-//           {user?.picture && <ProfilePic src={user?.picture} alt={user?.name} />}
-//           <UserName>{user?.name}</UserName>
-//           <WholeList>
-//             <List>
-//               <UserInfo>User name: </UserInfo>
-//               {user?.nickname}
-//             </List>
-//             <List>
-//               <UserInfo>E-mail: </UserInfo>
-//               {user?.email}
-//             </List>
-//             <List>
-//               <UserInfo>Location: </UserInfo>
-//               {user?.location}
-//             </List>
-//           </WholeList>
-//         </>
-//       )}
-//     </Container>
-//   );
-// };
-
-// const Button = styled.button`;
-//   font-size: 1em;
-//   padding: 10px 20px;
-//   border: none;
-//   border-radius: 5px;
-//   background-color: #7635c4;
-//   color: white;
-//   cursor: pointer;
-// `;
-
-// const Container = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   width: 500px;
-// `;
-
-// const ProfilePic = styled.img`
-//   width: 200px;
-//   height: 200px;
-//   border-radius: 50%;
-//   margin: 10px;
-//   border: 2px solid black;
-// `;
-
-// const UserName = styled.div`
-//   font-size: 2em;
-//   margin-bottom: 10px;
-// `;
-
-// const WholeList = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-// `;
-// const UserInfo = styled.div`
-//   font-size: 1em;
-//   margin: 5px;
-//   font-weight: bold;
-// `;
-
-// const List = styled.li`
-//   display: flex;
-//   align-items: center;
-//   margin: 5px;
-// `;
-
-// export default Profile;

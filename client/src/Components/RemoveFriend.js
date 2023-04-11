@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const RemoveFriend = ({ loggedInUser, user }) => {
+const RemoveFriend = ({ loggedInUser, user, refresh, setRefresh }) => {
   const handleClick = (e) => {
     e.preventDefault();
     fetch(`/deleteFriend`, {
@@ -14,11 +14,8 @@ const RemoveFriend = ({ loggedInUser, user }) => {
         loggedUserId: loggedInUser._id,
         targetUserId: user._id,
       }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
+    }).then((response) => response.json());
+    setRefresh(!refresh);
   };
 
   return (

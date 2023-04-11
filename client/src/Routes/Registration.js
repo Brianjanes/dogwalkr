@@ -1,14 +1,14 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { useState } from "react";
 import { useNavigate } from "react-router";
 import LoadingSpinner from "../Components/LoadingSpinner";
-import { useEffect } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
+import { UserContext } from "../Context/UserContext";
 
 const Registration = () => {
-  const { user } = useAuth0();
+  const { loggedInUser } = useContext(UserContext);
 
+  const { user } = useAuth0();
   const [formInformation, setFormInformation] = useState({
     userName: "",
     image: user.picture,
@@ -68,7 +68,7 @@ const Registration = () => {
     <>
       <Wrapper>
         <Container>
-          {formReceived ? (
+          {formReceived && user ? (
             <>
               <Header>Your registration was successful!</Header>
               <Header>You will be redirected shortly.</Header>

@@ -1,3 +1,4 @@
+"use strict";
 const { MongoClient } = require("mongodb");
 require("dotenv").config({ path: "../.env" });
 const { MONGO_URI } = process.env;
@@ -10,15 +11,50 @@ const options = {
 const client = new MongoClient(MONGO_URI, options);
 const db = client.db("DOGWALKR");
 const usersCollection = db.collection("users");
+
 //this is out handler for all users
 const getUsers = async (request, response) => {
   try {
     await client.connect();
     const users = await usersCollection.find().toArray();
-    return response.status(200).json({
-      status: 200,
-      data: users,
+    if (!users) {
+      return response.status(404).json({
+        status: 404,
+        data: "No users found",
+      });
+    } else {
+      return response.status(200).json({
+        status: 200,
+        data: users,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return response.status(500).json({
+      status: 500,
+      data: error,
     });
+  } finally {
+    client.close();
+  }
+};
+
+const getUserById = async (request, response) => {
+  const { _id } = request.params;
+  try {
+    const userId = await usersCollection.findOne({ _id });
+    if (!userId) {
+      return response.status(404).json({
+        status: 404,
+        data: "User not found",
+      });
+    }
+    if (userId) {
+      return response.status(200).json({
+        status: 200,
+        data: userId,
+      });
+    }
   } catch (error) {
     console.log(error);
     return response.status(500).json({
@@ -35,16 +71,24 @@ const getUserByEmail = async (request, response) => {
   try {
     await client.connect();
     const user = await usersCollection.findOne({ email });
-    return response.status(200).json({
-      status: 200,
-      data: user,
-    });
+    if (user) {
+      return response.status(200).json({
+        status: 200,
+        data: user,
+      });
+    } else if (!user) {
+      return response.status(404).json({
+        status: 404,
+        data: "User not found",
+      });
+    } else {
+      return response.status(500).json({
+        status: 500,
+        data: "Internal server error",
+      });
+    }
   } catch (error) {
-    console.log(error);
-    return response.status(500).json({
-      status: 500,
-      data: "Internal server error",
-    });
+    console.log("ERROR:", error);
   } finally {
     client.close();
   }
@@ -55,10 +99,17 @@ const getUserByUserName = async (request, response) => {
   try {
     await client.connect();
     const user = await usersCollection.findOne({ userName });
-    return response.status(200).json({
-      status: 200,
-      data: user,
-    });
+    if (user.userName === userName) {
+      return response.status(200).json({
+        status: 200,
+        data: user,
+      });
+    } else {
+      return response.status(404).json({
+        status: 404,
+        data: "User not found",
+      });
+    }
   } catch (error) {
     console.log(error);
     return response.status(500).json({
@@ -112,18 +163,7 @@ const addUser = async (request, response) => {
       location,
       bio,
       image,
-      friends: [
-        {
-          _id: "642e26065c986a1e56d5ff5d",
-          image: "",
-          userName: "glen",
-          firstName: "glen",
-          lastName: "may",
-          email: "glenisnice@gmail.com",
-          location: "st johns",
-          bio: "i'm a nice guy",
-        },
-      ],
+      friends: [],
     };
     const newUserResult = await usersCollection.insertOne(newUser);
     if (!newUserResult.insertedId) {
@@ -233,4 +273,5 @@ module.exports = {
   deleteUser,
   updateOneUser,
   getUserByUserName,
+  getUserById,
 };

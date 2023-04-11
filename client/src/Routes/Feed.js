@@ -1,31 +1,43 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { UserContext } from "../Context/UserContext";
 import styled from "styled-components";
 import NewWalk from "../Modal/NewWalk";
-import { useEffect } from "react";
 import SearchBar from "../Components/SearchBar";
 import UserThumbnail from "../Components/UserThumbnail";
-import { useAuth0 } from "@auth0/auth0-react";
 import LoadingSpinner from "../Components/LoadingSpinner";
 
-const Feed = ({ loggedInUser }) => {
+const Feed = () => {
+  const { loggedInUser } = useContext(UserContext);
   const [modal, setModal] = useState(false);
   const [walks, setWalks] = useState([]);
-  const { isAuthenticated } = useAuth0();
   const [refresh, setRefresh] = useState(false);
+  const [friends, setFriends] = useState([]);
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    setModal(!modal);
-  };
+  console.log(loggedInUser);
 
   useEffect(() => {
     fetch("/walks")
       .then((response) => response.json())
       .then((data) => {
-        setWalks(data.data);
+        if (data.status === 200) {
+          setWalks(data.data);
+        }
       });
+
+    // if (loggedInUser) {
+    //   fetch(`/userId/${loggedInUser.friends}`)
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       console.log(data.data);
+    //       setFriends(data.data);
+    //     });
+    // }
   }, [modal, refresh]);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setModal(!modal);
+  };
 
   return (
     <Wrapper>
@@ -84,7 +96,9 @@ const Feed = ({ loggedInUser }) => {
                   })
                     .then((response) => response.json())
                     .then((data) => {
-                      console.log(data.data);
+                      if (data.status === 200) {
+                        setRefresh(!refresh);
+                      }
                     });
                 };
 
@@ -140,21 +154,20 @@ const Feed = ({ loggedInUser }) => {
                 <SearchBar />
               </SearchDiv>
               <Friends>
-                {loggedInUser &&
-                  isAuthenticated &&
-                  loggedInUser.friends?.map((friend) => {
-                    return (
+                {/* {loggedInUser.friends?.map((friend) => {
+                  return (
+                    <div key={friend._id + 1}>
                       <UserThumbnail
-                        key={friend._id}
                         user={friend}
                         name={friend.firstName}
                         avatar={friend.image}
                       />
-                    );
-                  })}
+                    </div>
+                  );
+                })} */}
               </Friends>
             </TopRight>
-            <WalkHistory>Walk History</WalkHistory>
+            <WalkHistory>Walk History Coming soon!</WalkHistory>
           </RightSide>
         </>
       )}
@@ -208,7 +221,7 @@ const LeftSide = styled.div`
 const WalkCard = styled.div`
   overflow-y: scroll;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -260,9 +273,12 @@ const RightSide = styled.div`
   gap: 1.5rem;
 `;
 const WalkHistory = styled.div`
+  font-size: 3rem;
   padding: 10px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   overflow-y: scroll;
   background-color: whitesmoke;
@@ -290,7 +306,6 @@ const SearchDiv = styled.div`
 `;
 const Friends = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
   height: 90%;

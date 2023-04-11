@@ -1,14 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import glen from "../Images/glen.jpg";
+import tom from "../Images/tom.jpg";
 import { useNavigate } from "react-router-dom";
 
-const UserThumbnail = ({ name, avatar }) => {
+const UserThumbnail = ({ user }) => {
   const navigate = useNavigate();
-
   const handleClick = (e) => {
     e.preventDefault();
-    navigate("/glen");
+    navigate(`/${user.userName}`);
   };
 
   return (
@@ -18,9 +17,9 @@ const UserThumbnail = ({ name, avatar }) => {
       }}
     >
       <ImageBox>
-        <img src={glen} />
+        <img src={user.image} />
       </ImageBox>
-      <UserName>{name}</UserName>
+      <UserName>{user.userName}</UserName>
     </Wrapper>
   );
 };

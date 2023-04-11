@@ -91,58 +91,50 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
 
   return (
     <Container>
-      {!loggedInUser ? (
-        <LoadingDiv>
-          <LoadingSpinner />
-        </LoadingDiv>
-      ) : (
-        <>
-          <ExitDiv>
-            <FiX onClick={(e) => handleClick(e)} />
-          </ExitDiv>
-          <Info>
-            <InputReqs>Location: </InputReqs>
-            <InputField
-              type="text"
-              name="location"
-              placeholder="Where to start?"
-              onChange={(e) => handleInputChange(e)}
-            />
-          </Info>
-          <Info>
-            <InputReqs>Start time: </InputReqs>
-            <InputField
-              type="text"
-              name="startTime"
-              placeholder="Start time"
-              onChange={(e) => handleInputChange(e)}
-            />
-          </Info>
-          <Info>
-            <InputReqs>End time: </InputReqs>
-            <InputField
-              type="text"
-              name="endTime"
-              placeholder="End time"
-              onChange={(e) => handleInputChange(e)}
-            />
-          </Info>
-          <Info>
-            <InputReqs>Capacity: </InputReqs>
-            <InputField
-              type="text"
-              name="capacity"
-              placeholder="How many people?"
-              onChange={(e) => handleInputChange(e)}
-            />
-          </Info>
-          <ExitDiv>
-            <Button onClick={(e) => handleNewWalk(e)} disabled={!formIsValid}>
-              Create Walk
-            </Button>
-          </ExitDiv>
-        </>
-      )}
+      <ExitDiv>
+        <FiX onClick={(e) => handleClick(e)} />
+      </ExitDiv>
+      <Info>
+        <InputReqs>Location: </InputReqs>
+        <InputField
+          type="text"
+          name="location"
+          placeholder="Where to start?"
+          onChange={(e) => handleInputChange(e)}
+        />
+      </Info>
+      <Info>
+        <InputReqs>Start time: </InputReqs>
+        <InputField
+          type="text"
+          name="startTime"
+          placeholder="Start time"
+          onChange={(e) => handleInputChange(e)}
+        />
+      </Info>
+      <Info>
+        <InputReqs>End time: </InputReqs>
+        <InputField
+          type="text"
+          name="endTime"
+          placeholder="End time"
+          onChange={(e) => handleInputChange(e)}
+        />
+      </Info>
+      <Info>
+        <InputReqs>Capacity: </InputReqs>
+        <InputField
+          type="text"
+          name="capacity"
+          placeholder="How many people?"
+          onChange={(e) => handleInputChange(e)}
+        />
+      </Info>
+      <ExitDiv>
+        <Button onClick={(e) => handleNewWalk(e)} disabled={!formIsValid}>
+          Create Walk
+        </Button>
+      </ExitDiv>
     </Container>
   );
 };

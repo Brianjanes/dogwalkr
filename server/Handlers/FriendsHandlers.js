@@ -1,3 +1,4 @@
+"use strict";
 const { MongoClient } = require("mongodb");
 require("dotenv").config({ path: "../.env" });
 const { MONGO_URI } = process.env;
@@ -49,7 +50,6 @@ const addFriend = async (request, response) => {
 // this handler is for removing a friend
 const deleteFriend = async (request, response) => {
   const { loggedUserId, targetUserId } = request.body;
-
   try {
     await client.connect();
     const findUser = await usersCollection.findOne({

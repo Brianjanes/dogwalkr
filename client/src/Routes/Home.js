@@ -4,36 +4,52 @@ import LogoutButton from "../Components/LogoutButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Home = () => {
   const { isAuthenticated, isLoading, error, user } = useAuth0();
   const [loading, setLoading] = useState(true);
-  const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkUser = async (user) => {
-      try {
-        if (isAuthenticated) {
-          const response = await fetch(`/user/check?email=${user.email}`, {
-            method: "GET",
-          });
-          const data = await response.json();
+    if (user) {
+      fetch(`/check?email=${user.email}`)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
           if (data.inDB === true) {
             setLoading(false);
             navigate("/homefeed");
-          } else {
+          } else if (data.inDB === false) {
             navigate("/register");
           }
-        }
-      } catch (error) {
-        console.error("Error adding user:", error);
-      }
-    };
-    checkUser(user);
-    setCurrentUser(user);
-  }, [isAuthenticated]);
+        })
+        .catch((error) => console.log("Error:", error));
+    }
+  }, [user]);
+
+  // useEffect(() => {
+  //   const checkUser = async (user) => {
+  //     try {
+  //       if (isAuthenticated) {
+  //         const response = await fetch(`/user/check?email=${user.email}`, {
+  //           method: "GET",
+  //         });
+  //         const data = await response.json();
+  //         if (data.inDB === true) {
+  //           setLoading(false);
+  //           navigate("/homefeed");
+  //         } else {
+  //           navigate("/register");
+  //         }
+  //       }
+  //     } catch (error) {
+  //       console.error("Error adding user:", error);
+  //     }
+  //   };
+  //   checkUser(user);
+  //   setCurrentUser(user);
+  // }, [isAuthenticated]);
 
   return (
     <>

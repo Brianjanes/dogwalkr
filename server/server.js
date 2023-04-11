@@ -19,6 +19,7 @@ const {
   addUser,
   deleteUser,
   updateOneUser,
+  getUserById,
 } = require("./Handlers/UserHandlers");
 
 const { addFriend, deleteFriend } = require("./Handlers/FriendsHandlers");
@@ -36,9 +37,10 @@ app.use(express.static("public"));
 
 // these are our users endpoints.
 app.get("/users", getUsers);
+app.get("/userId/:id", getUserById);
 app.get("/users/:email", getUserByEmail);
 app.get("/profile/:userName", getUserByUserName);
-app.get("/user/check", checkUser);
+app.get("/check", checkUser);
 app.post("/user/addNewUser", addUser);
 app.patch("/updateProfile/:userName", updateOneUser);
 app.delete("/delete/:userName", deleteUser);

@@ -67,6 +67,7 @@ export default createGlobalStyle`
   }
 
   button {
+    font-size: 1rem;
     width: 150px;
     height: 40px;
     text-align: center;
@@ -74,6 +75,7 @@ export default createGlobalStyle`
     color: white;
     border: none;
     border-radius: 8px;
+    margin: 10px;
     
   }
   button:hover {

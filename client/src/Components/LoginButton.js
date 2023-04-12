@@ -14,10 +14,6 @@ const LoginButton = () => {
   );
 };
 
-const Button = styled.button`
-  height: 30px;
-  width: 125px;
-  font-size: 1.1em;
-`;
+const Button = styled.button``;
 
 export default LoginButton;

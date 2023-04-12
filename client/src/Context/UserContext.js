@@ -12,17 +12,12 @@ export const UserProvider = ({ children }) => {
       fetch(`users/${user.email}`)
         .then((response) => response.json())
         .then((data) => {
-          if (data.status === 200) {
-            setLoggedInUser(data.data);
-            console.log(data.data);
-          } else {
-            throw new Error("User context error:", data);
-          }
+          setLoggedInUser(data.data);
         })
         .catch((error) => console.log("User context error:", error));
     }
   }, [isAuthenticated]);
-
+  console.log(loggedInUser);
   return (
     <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
       {children}

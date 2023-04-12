@@ -7,10 +7,6 @@ const LogoutButton = () => {
   return isAuthenticated && <Button onClick={() => logout()}>Logout</Button>;
 };
 
-const Button = styled.button`
-  height: 30px;
-  width: 125px;
-  font-size: 1.1em;
-`;
+const Button = styled.button``;
 
 export default LogoutButton;

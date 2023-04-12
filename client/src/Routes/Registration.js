@@ -139,7 +139,7 @@ const Registration = () => {
                   handleSubmit(e);
                 }}
               >
-                Complete Registration
+                Register
               </Button>
             </>
           )}
@@ -214,9 +214,6 @@ const Container = styled.div`
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
   padding: 150px;
 `;
-const Button = styled.button`
-  font-size: 1.25em;
-  padding: 15px 30px;
-`;
+const Button = styled.button``;
 
 export default Registration;

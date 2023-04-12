@@ -28,29 +28,6 @@ const Home = () => {
     }
   }, [user]);
 
-  // useEffect(() => {
-  //   const checkUser = async (user) => {
-  //     try {
-  //       if (isAuthenticated) {
-  //         const response = await fetch(`/user/check?email=${user.email}`, {
-  //           method: "GET",
-  //         });
-  //         const data = await response.json();
-  //         if (data.inDB === true) {
-  //           setLoading(false);
-  //           navigate("/homefeed");
-  //         } else {
-  //           navigate("/register");
-  //         }
-  //       }
-  //     } catch (error) {
-  //       console.error("Error adding user:", error);
-  //     }
-  //   };
-  //   checkUser(user);
-  //   setCurrentUser(user);
-  // }, [isAuthenticated]);
-
   return (
     <>
       <Container>

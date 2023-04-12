@@ -22,11 +22,10 @@ const Feed = () => {
         }
       });
     if (loggedInUser) {
-      fetch(`/friends/${loggedInUser.friends}`)
+      fetch(`/friends/${loggedInUser._id}`)
         .then((response) => response.json())
         .then((data) => {
           if (data.status === 200) {
-            console.log(data);
             setFriends(data.data);
           }
         });
@@ -148,7 +147,7 @@ const Feed = () => {
                 <SearchBar />
               </SearchDiv>
               <Friends>
-                {/* {loggedInUser.friends?.map((friend) => {
+                {friends?.map((friend) => {
                   return (
                     <div key={friend._id + 1}>
                       <UserThumbnail
@@ -159,7 +158,7 @@ const Feed = () => {
                       />
                     </div>
                   );
-                })} */}
+                })}
               </Friends>
             </TopRight>
             <WalkHistory>Walk History coming soon</WalkHistory>
@@ -226,11 +225,7 @@ const ButtonDiv = styled.div`
   justify-content: flex-end;
   margin: 1.5em 2em 0px 0px;
 `;
-const Button = styled.button`
-  font-size: 1em;
-  padding: 10px 20px;
-  margin: 10px;
-`;
+const Button = styled.button``;
 const WalkPost = styled.div`
   display: flex;
   justify-content: center;

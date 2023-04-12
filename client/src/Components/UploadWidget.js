@@ -33,9 +33,6 @@
 // };
 
 // const Button = styled.button`
-//   width: 125px;
-//   height: 40px;
-//   padding: 10px 20px;
 // `;
 
 // export default UploadWidget;

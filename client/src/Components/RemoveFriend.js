@@ -33,11 +33,6 @@ const RemoveFriend = ({ loggedInUser, user, refresh, setRefresh }) => {
   );
 };
 
-const Button = styled.button`
-  height: 25px;
-  width: 150px;
-  margin: 10px;
-  font-size: 1.1em;
-`;
+const Button = styled.button``;
 
 export default RemoveFriend;

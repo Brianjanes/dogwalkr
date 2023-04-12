@@ -166,10 +166,10 @@ const Container = styled.div`
   z-index: 100;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
   position: absolute;
-  top: 200;
-  right: 200;
-  bottom: 200;
-  left: 200;
+  top: 10%;
+  right: 10%;
+  bottom: 10%;
+  left: 20%;
 `;
 const Info = styled.div`
   padding: 5px;
@@ -179,11 +179,7 @@ const Info = styled.div`
   width: 80%;
   margin-bottom: 10px;
 `;
-const Button = styled.button`
-  font-size: 1rem;
-  padding: 10px 25px;
-  margin: 10px;
-`;
+const Button = styled.button``;
 const InputReqs = styled.div`
   font-weight: bold;
 `;

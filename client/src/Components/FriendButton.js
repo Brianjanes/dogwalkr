@@ -18,11 +18,6 @@ const FriendButton = ({ handleFunction, title }) => {
   );
 };
 
-const Button = styled.button`
-  height: 25px;
-  width: 150px;
-  margin: 10px;
-  font-size: 1.1em;
-`;
+const Button = styled.button``;
 
 export default FriendButton;

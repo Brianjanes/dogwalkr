@@ -101,7 +101,7 @@ const Feed = () => {
               {walks?.map((walk) => {
                 return (
                   <WalkPost key={walk._id}>
-                    {/* <WalkHostImage src={walk.userName.image} /> */}
+                    <WalkHostImage src={walk.image} />
                     <Column>
                       <WalkInfo>
                         <WalkKey>UserName: </WalkKey> {walk.userName}
@@ -114,10 +114,6 @@ const Feed = () => {
                       </WalkInfo>
                       <WalkInfo>
                         <WalkKey>End Time: </WalkKey> {walk.endTime}
-                      </WalkInfo>
-                      <WalkInfo>
-                        <WalkKey>Participants: </WalkKey>
-                        {walk.attendees.length}
                       </WalkInfo>
                     </Column>
                     <Bottom>
@@ -176,9 +172,9 @@ const TimeOfPost = styled.div`
   font-size: 0.75rem;
 `;
 const WalkHostImage = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
   margin: 10px;
   border: 1px solid #c2c2d6;
 `;
@@ -187,6 +183,8 @@ const Column = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 45%;
+  gap: 0.5rem;
+  margin-left: 1rem;
 `;
 const Wrapper = styled.div`
   display: flex;

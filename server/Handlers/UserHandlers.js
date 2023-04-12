@@ -127,7 +127,7 @@ const getUserByUserName = async (request, response) => {
 //this is our handler for checking if a user should be sent to further registration
 const checkUser = async (request, response) => {
   const { email } = request.query;
-  console.log("check");
+
   try {
     await client.connect();
     const user = await usersCollection.findOne({ email });
@@ -156,7 +156,7 @@ const checkUser = async (request, response) => {
 
 const addUser = async (request, response) => {
   const { image, firstName, lastName, userName, email, location, bio } =
-    request.body.formInformation;
+    request.body.registrationFormInformation;
   try {
     await client.connect();
     const newUser = {
@@ -195,7 +195,6 @@ const addUser = async (request, response) => {
 //this is handler for deleting a user
 const deleteUser = async (request, response) => {
   const userName = String(request.params.userName);
-  console.log(userName);
   try {
     await client.connect();
     const user = await usersCollection.find({ userName }).toArray();
@@ -225,7 +224,6 @@ const deleteUser = async (request, response) => {
 const updateOneUser = async (request, response) => {
   const userName = request.params.userName;
   const { firstName, lastName, bio } = request.body;
-  console.log(request.body);
   try {
     await client.connect();
     const user = await usersCollection.findOne({ userName });

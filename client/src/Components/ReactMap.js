@@ -114,6 +114,7 @@ const ExitDiv = styled.div`
   display: flex;
   justify-content: flex-end;
   z-index: 2;
+  margin-bottom: 20px;
   &:hover {
     cursor: pointer;
   }

@@ -17,6 +17,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { logout } = useAuth0();
   const [refresh, setRefresh] = useState(false);
+  const [areFriends, setAreFriends] = useState(false);
 
   const editProfile = (e) => {
     e.preventDefault();
@@ -29,6 +30,11 @@ const Profile = () => {
       .then((data) => {
         if (data.status === 200) {
           setUser(data.data);
+          if (loggedInUser.friends.includes(data.data._id)) {
+            setAreFriends(!areFriends);
+          } else {
+            setAreFriends(!areFriends);
+          }
         }
       });
   }, [refresh, updateProfile]);
@@ -94,7 +100,6 @@ const Profile = () => {
       .then((data) => {
         if (data.status === 200) {
           setRefresh(!refresh);
-          setUser({ ...user, friends: [...user.friends, loggedInUser._id] });
         }
       });
   };
@@ -116,10 +121,6 @@ const Profile = () => {
         console.log(data.status);
         if (data.status === 200) {
           setRefresh(!refresh);
-          setUser({
-            ...user,
-            friends: user.friends.filter((id) => id !== loggedInUser._id),
-          });
         }
       });
   };
@@ -136,16 +137,9 @@ const Profile = () => {
             <ProfileImage src={user.image} />
             {loggedInUser.userName !== user.userName ? (
               <FriendButton
-                handleFunction={
-                  !loggedInUser.friends.includes(user._id)
-                    ? { handleAddFriend }
-                    : { handleRemoveFriend }
-                }
-                title={
-                  !loggedInUser.friends.includes(user._id)
-                    ? "Add Friend"
-                    : "Remove Friend"
-                }
+                areFriends={areFriends}
+                handleAddFriend={handleAddFriend}
+                handleRemoveFriend={handleRemoveFriend}
               />
             ) : (
               <p>oi! it's {loggedInUser.userName} mate</p>

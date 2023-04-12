@@ -32,7 +32,7 @@ const ReactMap = ({ mapModal, setMapModal }) => {
           setLocationGeocode({ lat, lng });
         });
     }
-  }, [loggedInUser]);
+  }, [loggedInUser, request_url]);
 
   const handleExit = (e) => {
     e.preventDefault();

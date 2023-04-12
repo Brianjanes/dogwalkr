@@ -118,7 +118,6 @@ const Profile = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.status);
         if (data.status === 200) {
           setRefresh(!refresh);
         }
@@ -142,7 +141,7 @@ const Profile = () => {
                 handleRemoveFriend={handleRemoveFriend}
               />
             ) : (
-              <p>oi! it's {loggedInUser.userName} mate</p>
+              <></>
             )}
           </LeftSide>
           {updateProfile && (
@@ -204,7 +203,7 @@ const LoadingDiv = styled.div`
 const ProfileImage = styled.img`
   width: 225px;
   height: 225px;
-  border-radius: 50%;
+  border-radius: 20px;
   border: 2px solid #c2c2d6;
   margin: 20px;
 `;

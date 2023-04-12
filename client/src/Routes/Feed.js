@@ -157,7 +157,10 @@ const Feed = () => {
                 })}
               </Friends>
             </TopRight>
-            <WalkHistory>Walk History coming soon</WalkHistory>
+            <WalkHistory>
+              <p>Walk History</p>
+              <p>Coming soon!</p>
+            </WalkHistory>
           </RightSide>
         </>
       )}

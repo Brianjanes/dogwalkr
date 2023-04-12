@@ -28,7 +28,7 @@ const Home = () => {
         })
         .catch((error) => console.log("Error:", error));
     }
-  }, [user]);
+  }, [user, navigate]);
 
   return (
     <>

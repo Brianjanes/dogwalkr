@@ -16,7 +16,7 @@ const UserThumbnail = ({ name, avatar, userName }) => {
       }}
     >
       <ImageBox>
-        <img src={avatar} />
+        <img src={avatar} alt="user" />
       </ImageBox>
       <UserName>{name}</UserName>
     </Wrapper>

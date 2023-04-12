@@ -1,22 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { useAuth0 } from "@auth0/auth0-react";
-import { UserContext } from "../Context/UserContext";
 
 const Registration = () => {
-  const { loggedInUser } = useContext(UserContext);
   const { user } = useAuth0();
-  const [formInformation, setFormInformation] = useState({
-    userName: "",
-    image: user.picture,
-    firstName: "",
-    lastName: "",
-    email: "",
-    location: "",
-    bio: "",
-  });
+  const [registrationFormInformation, setRegistrationFormInformation] =
+    useState({
+      userName: "",
+      image: user.picture,
+      firstName: "",
+      lastName: "",
+      email: user.email,
+      location: "",
+      bio: "",
+    });
 
   const [formReceived, setFormReceived] = useState(false);
   const navigate = useNavigate();
@@ -29,7 +28,7 @@ const Registration = () => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ formInformation }),
+      body: JSON.stringify({ registrationFormInformation }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -43,20 +42,38 @@ const Registration = () => {
   const handleInputChange = (e) => {
     const { name } = e.target;
     if (name === "firstName") {
-      setFormInformation({ ...formInformation, firstName: e.target.value });
+      setRegistrationFormInformation({
+        ...registrationFormInformation,
+        firstName: e.target.value,
+      });
     } else if (name === "lastName") {
-      setFormInformation({ ...formInformation, lastName: e.target.value });
+      setRegistrationFormInformation({
+        ...registrationFormInformation,
+        lastName: e.target.value,
+      });
     } else if (name === "location") {
-      setFormInformation({ ...formInformation, location: e.target.value });
+      setRegistrationFormInformation({
+        ...registrationFormInformation,
+        location: e.target.value,
+      });
     } else if (name === "bio") {
-      setFormInformation({ ...formInformation, bio: e.target.value });
+      setRegistrationFormInformation({
+        ...registrationFormInformation,
+        bio: e.target.value,
+      });
     } else if (name === "userName") {
-      setFormInformation({ ...formInformation, userName: e.target.value });
+      setRegistrationFormInformation({
+        ...registrationFormInformation,
+        userName: e.target.value,
+      });
     } else if (name === "email") {
-      setFormInformation({ ...formInformation, email: e.target.value });
+      setRegistrationFormInformation({
+        ...registrationFormInformation,
+        email: user.email,
+      });
     } else if (name === "image") {
-      setFormInformation({
-        ...formInformation,
+      setRegistrationFormInformation({
+        ...registrationFormInformation,
         image: user.pictue,
       });
     }
@@ -107,7 +124,7 @@ const Registration = () => {
                     onChange={(e) => handleInputChange(e)}
                   />
                 </RequiredInfo>
-                <RequiredInfo>
+                {/* <RequiredInfo>
                   <InfoRequired>Email: </InfoRequired>
                   <InputField
                     type="text"
@@ -115,7 +132,7 @@ const Registration = () => {
                     placeholder="Your email"
                     onChange={(e) => handleInputChange(e)}
                   />
-                </RequiredInfo>
+                </RequiredInfo> */}
                 <RequiredInfo>
                   <InfoRequired>Location: </InfoRequired>
                   <InputField

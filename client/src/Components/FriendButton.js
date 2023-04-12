@@ -1,10 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-const FriendButton = ({ handleFunction, title }) => {
+const FriendButton = ({ handleAddFriend, handleRemoveFriend, areFriends }) => {
   const handleClick = (e) => {
     e.preventDefault();
-    handleFunction();
+    if (areFriends) {
+      handleRemoveFriend();
+    } else {
+      handleAddFriend();
+    }
   };
 
   return (
@@ -13,7 +17,7 @@ const FriendButton = ({ handleFunction, title }) => {
         handleClick(e);
       }}
     >
-      {title}
+      {areFriends ? "Remove Friend" : "Add Friend"}
     </Button>
   );
 };

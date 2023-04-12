@@ -4,13 +4,15 @@ import LogoutButton from "../Components/LogoutButton";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { UserContext } from "../Context/UserContext";
 
 const Home = () => {
   const { isAuthenticated, isLoading, error, user } = useAuth0();
   const [loading, setLoading] = useState(true);
+  const { loggedInUser } = useContext(UserContext);
   const navigate = useNavigate();
-
+  console.log(loggedInUser);
   useEffect(() => {
     if (user) {
       fetch(`/check?email=${user.email}`)

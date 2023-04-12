@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { FiX } from "react-icons/fi";
-import { useState } from "react";
+import { UserContext } from "../Context/UserContext";
 import ReactMap from "../Components/ReactMap";
 
-const NewWalk = ({ modal, setModal, loggedInUser }) => {
+const NewWalk = ({ modal, setModal }) => {
+  const { loggedInUser } = useContext(UserContext);
   const [formIsValid, setFormIsValid] = useState(false);
   const [walk, setWalk] = useState(false);
   const [map, setMap] = useState(false);
@@ -14,7 +15,6 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
     location: "",
     startTime: "",
     endTime: "",
-    capacity: "",
     dateTime: new Date().toLocaleString(),
   });
 
@@ -48,11 +48,6 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
         setFormInformation({
           ...formInformation,
           endTime: value,
-        });
-      } else if (name === "capacity") {
-        setFormInformation({
-          ...formInformation,
-          capacity: value,
         });
       } else if (name === "userName") {
         setFormInformation({

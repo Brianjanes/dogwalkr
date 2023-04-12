@@ -12,12 +12,13 @@ export const UserProvider = ({ children }) => {
       fetch(`users/${user.email}`)
         .then((response) => response.json())
         .then((data) => {
+          console.log(data.data);
           setLoggedInUser(data.data);
         })
         .catch((error) => console.log("User context error:", error));
     }
-  }, [isAuthenticated]);
-
+  }, [isAuthenticated, user]);
+  console.log(loggedInUser);
   return (
     <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
       {children}

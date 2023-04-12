@@ -102,6 +102,7 @@ const Feed = () => {
                 return (
                   <WalkPost key={walk._id}>
                     <WalkHostImage src={walk.image} />
+                    <WalkHostImage src={walk.image} />
                     <Column>
                       <WalkInfo>
                         <WalkKey>UserName: </WalkKey> {walk.userName}
@@ -174,7 +175,7 @@ const TimeOfPost = styled.div`
 const WalkHostImage = styled.img`
   width: 100px;
   height: 100px;
-  border-radius: 10px;
+  border-radius: 50%;
   margin: 10px;
   border: 1px solid #c2c2d6;
 `;
@@ -183,7 +184,6 @@ const Column = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 45%;
-  gap: 0.5rem;
 `;
 const Wrapper = styled.div`
   display: flex;

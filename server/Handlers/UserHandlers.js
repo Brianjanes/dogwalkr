@@ -155,7 +155,7 @@ const checkUser = async (request, response) => {
 
 const addUser = async (request, response) => {
   const { image, firstName, lastName, userName, email, location, bio } =
-    request.body.formInformation;
+    request.body.registrationFormInformation;
   try {
     await client.connect();
     const newUser = {

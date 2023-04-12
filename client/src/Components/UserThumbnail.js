@@ -31,7 +31,7 @@ const ImageBox = styled.div`
     max-height: 5rem;
     width: auto;
     height: auto;
-    border-radius: 10px;
+    border-radius: 12px;
   }
 `;
 const Wrapper = styled.div`
@@ -40,10 +40,9 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   width: 6.5rem;
-  height: 7rem;
+  height: 7.2rem;
   border-radius: 10%;
-  margin: 0.75rem;
-  border: 1px solid black;
+  margin: 0.5rem;
   &:hover {
     cursor: pointer;
     border: 2px solid #9595b7;

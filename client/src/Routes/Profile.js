@@ -17,6 +17,7 @@ const Profile = () => {
   const navigate = useNavigate();
   const { logout } = useAuth0();
   const [refresh, setRefresh] = useState(false);
+  const [areFriends, setAreFriends] = useState(false);
 
   const editProfile = (e) => {
     e.preventDefault();
@@ -29,6 +30,11 @@ const Profile = () => {
       .then((data) => {
         if (data.status === 200) {
           setUser(data.data);
+          if (loggedInUser.friends.includes(data.data._id)) {
+            setAreFriends(!areFriends);
+          } else {
+            setAreFriends(!areFriends);
+          }
         }
       });
   }, [refresh, updateProfile]);
@@ -130,17 +136,11 @@ const Profile = () => {
           <LeftSide>
             <ProfileImage src={user.image} />
             {loggedInUser.userName !== user.userName ? (
-              !loggedInUser.friends.includes(user._id) ? (
-                <FriendButton
-                  handleFunction={handleAddFriend}
-                  title="Add Friend"
-                />
-              ) : (
-                <FriendButton
-                  handleFunction={handleRemoveFriend}
-                  title="Remove Friend"
-                />
-              )
+              <FriendButton
+                areFriends={areFriends}
+                handleAddFriend={handleAddFriend}
+                handleRemoveFriend={handleRemoveFriend}
+              />
             ) : (
               <p>oi! it's {loggedInUser.userName} mate</p>
             )}

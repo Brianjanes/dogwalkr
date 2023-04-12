@@ -20,6 +20,7 @@ const addWalk = async (request, response) => {
   try {
     await client.connect();
     const newWalk = {
+      image,
       userName,
       image,
       location,

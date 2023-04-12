@@ -76,6 +76,7 @@ export default createGlobalStyle`
     border: none;
     border-radius: 8px;
     margin: 10px;
+    padding: 10px 20px;
     
   }
   button:hover {

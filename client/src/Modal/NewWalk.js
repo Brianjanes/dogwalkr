@@ -81,7 +81,7 @@ const NewWalk = ({ modal, setModal }) => {
       })
       .then((data) => {
         if (data.status === 201) {
-          setWalk(true);
+          setWalk(!walk);
           setModal(!modal);
         }
       })

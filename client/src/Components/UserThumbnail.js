@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import tom from "../Images/tom.jpg";
 import { useNavigate } from "react-router-dom";
 
-const UserThumbnail = ({ user, name, avatar, userName }) => {
+const UserThumbnail = ({ name, avatar, userName }) => {
   const navigate = useNavigate();
   const handleClick = (e) => {
     e.preventDefault();

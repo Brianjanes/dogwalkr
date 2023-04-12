@@ -1,12 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { useAuth0 } from "@auth0/auth0-react";
-import { UserContext } from "../Context/UserContext";
 
 const Registration = () => {
-  const { loggedInUser } = useContext(UserContext);
   const { user } = useAuth0();
   const [registrationFormInformation, setRegistrationFormInformation] =
     useState({

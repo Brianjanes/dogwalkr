@@ -115,6 +115,10 @@ const Feed = () => {
                       <WalkInfo>
                         <WalkKey>End Time: </WalkKey> {walk.endTime}
                       </WalkInfo>
+                      <WalkInfo>
+                        <WalkKey>Participants: </WalkKey>{" "}
+                        {walk.attendees.length}
+                      </WalkInfo>
                     </Column>
                     <Bottom>
                       {walk.userName !== loggedInUser.userName ? (

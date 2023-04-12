@@ -1,19 +1,17 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { useAuth0 } from "@auth0/auth0-react";
-import { UserContext } from "../Context/UserContext";
 
 const Registration = () => {
-  const { loggedInUser } = useContext(UserContext);
   const { user } = useAuth0();
   const [formInformation, setFormInformation] = useState({
     userName: "",
     image: user.picture,
     firstName: "",
     lastName: "",
-    email: "",
+    email: user.email,
     location: "",
     bio: "",
   });
@@ -53,7 +51,7 @@ const Registration = () => {
     } else if (name === "userName") {
       setFormInformation({ ...formInformation, userName: e.target.value });
     } else if (name === "email") {
-      setFormInformation({ ...formInformation, email: e.target.value });
+      setFormInformation({ ...formInformation, email: user.email });
     } else if (name === "image") {
       setFormInformation({
         ...formInformation,
@@ -155,7 +153,6 @@ const LoadingDiv = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
 const InputField = styled.input`
   border-radius: 5px;
   padding: 5px;

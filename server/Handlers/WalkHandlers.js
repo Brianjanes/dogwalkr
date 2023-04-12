@@ -15,16 +15,16 @@ const ObjectId = require("mongodb").ObjectId;
 
 //this is our handler for adding a new post
 const addWalk = async (request, response) => {
-  const { dateTime, userName, location, endTime, startTime, capacity } =
+  const { dateTime, userName, location, endTime, startTime, image } =
     request.body;
   try {
     await client.connect();
     const newWalk = {
       userName,
+      image,
       location,
       endTime,
       startTime,
-      capacity,
       dateTime,
       attendees: [userName],
     };
@@ -59,7 +59,6 @@ const deleteWalk = async (request, response) => {
     const deleteRequest = await postCollection.deleteOne({
       _id: new ObjectId(_id),
     });
-    console.log(deleteRequest);
     if (deleteRequest.deletedCount !== 0) {
       return response.status(200).json({
         status: 200,
@@ -107,7 +106,6 @@ const getWalk = async (request, response) => {
 };
 
 const getWalks = async (request, response) => {
-  console.log("request");
   try {
     await client.connect();
     const walks = await postCollection.find().toArray();
@@ -136,7 +134,6 @@ const getWalks = async (request, response) => {
 const updateWalk = async (request, response) => {
   const { userName } = request.body;
   const { _id } = request.params;
-  console.log(userName);
   try {
     await client.connect();
     const findWalk = await postCollection.find({ _id }).toArray();

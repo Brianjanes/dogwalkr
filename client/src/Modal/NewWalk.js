@@ -49,11 +49,6 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
           ...formInformation,
           endTime: value,
         });
-      } else if (name === "capacity") {
-        setFormInformation({
-          ...formInformation,
-          capacity: value,
-        });
       } else if (name === "userName") {
         setFormInformation({
           ...formInformation,
@@ -133,15 +128,6 @@ const NewWalk = ({ modal, setModal, loggedInUser }) => {
           type="text"
           name="endTime"
           placeholder="End time"
-          onChange={(e) => handleInputChange(e)}
-        />
-      </Info>
-      <Info>
-        <InputReqs>Capacity: </InputReqs>
-        <InputField
-          type="text"
-          name="capacity"
-          placeholder="How many people?"
           onChange={(e) => handleInputChange(e)}
         />
       </Info>

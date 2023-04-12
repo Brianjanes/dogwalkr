@@ -17,7 +17,7 @@ export const UserProvider = ({ children }) => {
         .catch((error) => console.log("User context error:", error));
     }
   }, [isAuthenticated]);
-  console.log(loggedInUser);
+
   return (
     <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
       {children}

@@ -60,7 +60,6 @@ const deleteFriend = async (request, response) => {
         { _id: findUser._id },
         { $pull: { friends: targetUserId } }
       );
-      console.log(removeFriend);
       return response.status(200).json({
         status: 200,
         message: "Friend removed successfully",
@@ -87,7 +86,7 @@ const getFriendsById = async (request, response) => {
     const userFriends = await usersCollection
       .find({ _id: { $in: ObjectIdArray } })
       .toArray();
-    console.log(userFriends);
+
     if (!user) {
       return response.status(404).json({
         status: 404,

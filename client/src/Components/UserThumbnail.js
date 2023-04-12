@@ -31,7 +31,7 @@ const ImageBox = styled.div`
     max-height: 5rem;
     width: auto;
     height: auto;
-    border-radius: 50%;
+    border-radius: 10px;
   }
 `;
 const Wrapper = styled.div`

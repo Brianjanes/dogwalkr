@@ -135,17 +135,18 @@ const Profile = () => {
           <LeftSide>
             <ProfileImage src={user.image} />
             {loggedInUser.userName !== user.userName ? (
-              !loggedInUser.friends.includes(user._id) ? (
-                <FriendButton
-                  handleFunction={handleAddFriend}
-                  title="Add Friend"
-                />
-              ) : (
-                <FriendButton
-                  handleFunction={handleRemoveFriend}
-                  title="Remove Friend"
-                />
-              )
+              <FriendButton
+                handleFunction={
+                  !loggedInUser.friends.includes(user._id)
+                    ? { handleAddFriend }
+                    : { handleRemoveFriend }
+                }
+                title={
+                  !loggedInUser.friends.includes(user._id)
+                    ? "Add Friend"
+                    : "Remove Friend"
+                }
+              />
             ) : (
               <p>oi! it's {loggedInUser.userName} mate</p>
             )}

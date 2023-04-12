@@ -94,7 +94,6 @@ const Profile = () => {
       .then((data) => {
         if (data.status === 200) {
           setRefresh(!refresh);
-          setUser({ ...user, friends: [...user.friends, loggedInUser._id] });
         }
       });
   };
@@ -116,10 +115,6 @@ const Profile = () => {
         console.log(data.status);
         if (data.status === 200) {
           setRefresh(!refresh);
-          setUser({
-            ...user,
-            friends: user.friends.filter((id) => id !== loggedInUser._id),
-          });
         }
       });
   };

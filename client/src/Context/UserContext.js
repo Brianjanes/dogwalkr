@@ -6,6 +6,7 @@ export const UserContext = createContext(null);
 export const UserProvider = ({ children }) => {
   const { user, isAuthenticated } = useAuth0();
   const [loggedInUser, setLoggedInUser] = useState(null);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -17,10 +18,12 @@ export const UserProvider = ({ children }) => {
         })
         .catch((error) => console.log("User context error:", error));
     }
-  }, [isAuthenticated, user]);
+  }, [isAuthenticated, user, refresh]);
 
   return (
-    <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
+    <UserContext.Provider
+      value={{ refresh, setRefresh, loggedInUser, setLoggedInUser }}
+    >
       {children}
     </UserContext.Provider>
   );

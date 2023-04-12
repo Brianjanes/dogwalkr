@@ -10,7 +10,7 @@ import ProfileModal from "../Modal/ProfileModal";
 // import UploadWidget from "../Components/UploadWidget";
 
 const Profile = () => {
-  const { loggedInUser } = useContext(UserContext);
+  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
   const [user, setUser] = useState([]);
   const userName = useParams().userName;
   const [updateProfile, setUpdateProfile] = useState(false);
@@ -25,19 +25,28 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    fetch(`/profile/${userName}`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === 200) {
-          setUser(data.data);
-          if (loggedInUser.friends.includes(data.data._id)) {
-            setAreFriends(!areFriends);
-          } else {
-            setAreFriends(!areFriends);
+    console.log("userfetch");
+    if (loggedInUser) {
+      fetch(`/profile/${userName}`)
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.status === 200) {
+            console.log(data.data);
+            setUser(data.data);
           }
-        }
-      });
-  }, [refresh, updateProfile]);
+          if (loggedInUser.friends.includes(data.data._id)) {
+            setAreFriends(true);
+            console.log(true);
+          } else {
+            setAreFriends(false);
+          }
+        });
+    }
+  }, [refresh, updateProfile, loggedInUser]);
+
+  console.log(loggedInUser);
+  // console.log("this is the user we're looking at", user._id);
+  // console.log("this is the logged in user", loggedInUser?.friends);
 
   const handleUpdate = (formInformation) => {
     console.log(formInformation);
@@ -98,7 +107,10 @@ const Profile = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (data.status === 200) {
+          console.log("addfriend");
+          setLoggedInUser(data.data);
           setRefresh(!refresh);
         }
       });
@@ -118,7 +130,10 @@ const Profile = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (data.status === 200) {
+          console.log("removefriend");
+          setLoggedInUser(data.data);
           setRefresh(!refresh);
         }
       });

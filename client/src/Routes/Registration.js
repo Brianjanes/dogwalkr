@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
 import LoadingSpinner from "../Components/LoadingSpinner";
 import { useAuth0 } from "@auth0/auth0-react";
+import { UserContext } from "../Context/UserContext";
 
 const Registration = () => {
+  const { refresh, setRefresh } = useContext(UserContext);
   const { user } = useAuth0();
   const [registrationFormInformation, setRegistrationFormInformation] =
     useState({
@@ -43,6 +45,7 @@ const Registration = () => {
       .then((data) => {
         if (data.status === 200) {
           setFormReceived(true);
+          setRefresh(!refresh);
           navigate("/homefeed");
         }
       });

@@ -31,9 +31,13 @@ const addFriend = async (request, response) => {
         { _id: findUser._id },
         { $push: { friends: targetUserId } }
       );
+      const updatedUser = await usersCollection.findOne({
+        _id: new ObjectId(loggedUserId),
+      });
       return response.status(200).json({
         status: 200,
         message: "Friend added successfully",
+        data: updatedUser,
       });
     }
   } catch (error) {
@@ -60,10 +64,13 @@ const deleteFriend = async (request, response) => {
         { _id: findUser._id },
         { $pull: { friends: targetUserId } }
       );
+      const updatedUser = await usersCollection.findOne({
+        _id: new ObjectId(loggedUserId),
+      });
       return response.status(200).json({
         status: 200,
         message: "Friend removed successfully",
-        data: removeFriend,
+        data: updatedUser,
       });
     }
   } catch (error) {

@@ -6,7 +6,7 @@ const FriendButton = ({ handleAddFriend, handleRemoveFriend, areFriends }) => {
     e.preventDefault();
     if (areFriends) {
       handleRemoveFriend();
-    } else {
+    } else if (!areFriends) {
       handleAddFriend();
     }
   };

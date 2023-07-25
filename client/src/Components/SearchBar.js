@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiSearch } from "react-icons/fi";
 import styled from "styled-components";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 //this component is for searcing through your friends list.
@@ -11,25 +10,26 @@ const SearchBar = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
+
+  const searchUser = () => {
+    // Perform search logic here, and then navigate if needed
+    fetch(`search/${search}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setSearch("");
+        navigate(`/${search}`);
+      });
+  };
+
   //this is for a keydown event
   const handleSearchEnter = (e) => {
     if (e.key === "Enter") {
-      fetch(`search/${search}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setSearch(data.data);
-          navigate(`/${search}`);
-        });
+      searchUser();
     }
   };
   //this handles an on click for the icon button
   const handleSearchClick = () => {
-    fetch(`search/${search}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setSearch(data.data);
-        navigate(`/${search}`);
-      });
+    searchUser();
   };
 
   return (
@@ -40,7 +40,14 @@ const SearchBar = () => {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={(e) => handleSearchEnter(e)}
-      ></SearchBarInput>
+      />
+      <datalist id="user-list">
+        {" "}
+        {/* This is the datalist */}
+        {users.map((user, index) => (
+          <option key={index} value={user} />
+        ))}
+      </datalist>
       <SearchDiv onClick={handleSearchClick}>
         <SearchIcon />
       </SearchDiv>

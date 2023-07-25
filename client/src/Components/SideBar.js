@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { GithubLogo, LinkedinLogo } from "./CutsomIcons";
 
+//side bar component for the app level. visible on each page.
+
 const SideBar = () => {
   return (
     <Container>

@@ -5,6 +5,8 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../Context/UserContext";
 
+//registration component, user selects username, location, ect here.
+
 const Registration = () => {
   const { refresh, setRefresh } = useContext(UserContext);
   const { user } = useAuth0();

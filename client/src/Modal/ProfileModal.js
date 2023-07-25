@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+//this is a modal for the profile page, that allows a user to change their profile information.
+
 const ProfileModal = ({ handleUpdate, handleDelete, user }) => {
   const [formInformation, setFormInformation] = useState({
     firstName: "",

@@ -2,6 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+//this is the user thumbnail, visible on the feed page.
+//it navigates to the user's profile on click.
+
 const UserThumbnail = ({ name, avatar, userName }) => {
   const navigate = useNavigate();
   const handleClick = (e) => {

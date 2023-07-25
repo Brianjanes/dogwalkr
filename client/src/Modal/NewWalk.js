@@ -4,6 +4,8 @@ import { FiX } from "react-icons/fi";
 import { UserContext } from "../Context/UserContext";
 import ReactMap from "../Components/ReactMap";
 
+//this is the new walk modal, from the home page. it opens a modal with a form that submits to the DB.
+
 const NewWalk = ({ modal, setModal }) => {
   const { loggedInUser } = useContext(UserContext);
   const [formIsValid, setFormIsValid] = useState(false);
@@ -17,12 +19,12 @@ const NewWalk = ({ modal, setModal }) => {
     endTime: "",
     dateTime: new Date().toLocaleString(),
   });
-
+  //this opens up the new walk modal
   const handleClick = (e) => {
     e.preventDefault();
     setModal(!modal);
   };
-
+  //this opens up the map modal from the new walk modal
   const handleMap = (e) => {
     e.preventDefault();
     setMap(!map);
@@ -63,6 +65,7 @@ const NewWalk = ({ modal, setModal }) => {
     }
   };
 
+  // this function is to put a new walk in the DB, and it closes the modal once the form is submitted.
   const handleNewWalk = (e) => {
     e.preventDefault();
     fetch("/walks/add", {
@@ -90,6 +93,7 @@ const NewWalk = ({ modal, setModal }) => {
       });
   };
 
+  //this is returning html with the above functions
   return (
     <Container>
       <ExitDiv>

@@ -12,6 +12,8 @@ import Profile from "./Routes/Profile";
 import ReactMap from "./Components/ReactMap";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+//bringing everythig together in this component.
+
 const App = () => {
   return (
     <BrowserRouter>

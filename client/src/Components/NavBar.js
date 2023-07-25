@@ -5,6 +5,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import LogoutButton from "./LogoutButton";
 import LoginButton from "./LoginButton";
 
+//nav bar at the top of the page. includes links that open new tabs.
+
 const NavBar = () => {
   const { isAuthenticated } = useAuth0();
   return (

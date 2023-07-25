@@ -11,6 +11,7 @@ const FriendButton = ({ handleAddFriend, handleRemoveFriend, areFriends }) => {
     }
   };
 
+  //a reuseable button that checks if the user is friends with the specified user or not.
   return (
     <Button
       onClick={(e) => {

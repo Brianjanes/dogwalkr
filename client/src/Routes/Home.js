@@ -7,12 +7,14 @@ import { useNavigate } from "react-router";
 import React, { useEffect, useState, useContext } from "react";
 import { UserContext } from "../Context/UserContext";
 
+//home page, with login, why did i bring in context and not use it here?
+
 const Home = () => {
   const { isAuthenticated, isLoading, error, user } = useAuth0();
   const [loading, setLoading] = useState(true);
   const { loggedInUser } = useContext(UserContext);
   const navigate = useNavigate();
-  console.log(loggedInUser);
+
   useEffect(() => {
     if (user) {
       fetch(`/check?email=${user.email}`)

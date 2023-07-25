@@ -4,6 +4,9 @@ import styled from "styled-components";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+//this component is for searcing through your friends list.
+//as of july 25th/2023 this doesn't have a drop down delector but i would like to add one
+
 const SearchBar = () => {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);

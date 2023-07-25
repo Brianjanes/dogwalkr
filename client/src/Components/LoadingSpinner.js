@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import React from "react";
 
+//simple loading spinner, styled in the file with styled-components. change the background ov the initial div to change all colours.
+
 const LoadingSpinner = () => {
   return (
     <Ellipsis>

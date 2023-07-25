@@ -1,6 +1,8 @@
 import React, { useEffect, createContext, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 
+// this is providing user context to the whole application.
+
 export const UserContext = createContext(null);
 
 export const UserProvider = ({ children }) => {

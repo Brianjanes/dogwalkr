@@ -6,6 +6,9 @@ import SearchBar from "../Components/SearchBar";
 import UserThumbnail from "../Components/UserThumbnail";
 import LoadingSpinner from "../Components/LoadingSpinner";
 
+//feed page route.
+//would like to expand on walk history, clean up some logic for images, and walk time related things.
+
 const Feed = () => {
   const { loggedInUser } = useContext(UserContext);
   const [modal, setModal] = useState(false);

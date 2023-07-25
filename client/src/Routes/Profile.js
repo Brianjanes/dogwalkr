@@ -9,6 +9,9 @@ import { UserContext } from "../Context/UserContext";
 import ProfileModal from "../Modal/ProfileModal";
 // import UploadWidget from "../Components/UploadWidget";
 
+//this is the profile page
+//i encountered a lot of issues around adding and removing friends here. this is where the user will upload image via cloudinary.
+
 const Profile = () => {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
   const [user, setUser] = useState([]);
@@ -44,7 +47,7 @@ const Profile = () => {
     }
   }, [refresh, updateProfile, loggedInUser]);
 
-  console.log(loggedInUser);
+  // console.log(loggedInUser);
   // console.log("this is the user we're looking at", user._id);
   // console.log("this is the logged in user", loggedInUser?.friends);
 

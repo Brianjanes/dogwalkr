@@ -22,7 +22,6 @@ const addWalk = async (request, response) => {
     const newWalk = {
       image,
       userName,
-      image,
       location,
       endTime,
       startTime,

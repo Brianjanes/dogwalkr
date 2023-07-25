@@ -116,7 +116,7 @@ const Feed = () => {
                         <WalkKey>End Time: </WalkKey> {walk.endTime}
                       </WalkInfo>
                       <WalkInfo>
-                        <WalkKey>Participants: </WalkKey>{" "}
+                        <WalkKey>Participants: </WalkKey>
                         {walk.attendees.length}
                       </WalkInfo>
                     </Column>

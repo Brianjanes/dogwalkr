@@ -101,7 +101,7 @@ const MapContainer = styled.div`
   border-radius: 20px;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
   position: fixed;
-  top: 20%;
+  top: 10%;
   right: 20%;
   bottom: 20%;
   left: 20%;

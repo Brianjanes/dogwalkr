@@ -13,9 +13,9 @@ const About = () => {
             </AboutInfo>
             <AboutInfo>
               DOGWALKR is a way to link up with your friends to go for a walk
-              with your dogs. You can make a post (with pictures) and set your
-              favorite walks to go on. You can see if your friends are looking
-              to go for a walk, or if they've already gone for a walk.
+              with your dogs. You can make a public post to go for a walk, and
+              you can see if your friends are looking to go for a walk, or if
+              they've already gone for a walk.
             </AboutInfo>
           </Info>
         </InfoContainer>
@@ -58,7 +58,7 @@ const Info = styled.div`
   border-radius: 20px;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
   z-index: 1;
-  margin-bottom: 50px; ;
+  margin-bottom: 50px;
 `;
 
 const AboutInfo = styled.div`

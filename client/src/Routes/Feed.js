@@ -97,7 +97,7 @@ function Feed() {
         <>
           <LeftSide>
             <ButtonDiv>
-              <Button onClick={(e) => handleClick(e)}>New Walk</Button>
+              <button onClick={(e) => handleClick(e)}>New Walk</button>
               {modal && (
                 <NewWalk
                   loggedInUser={loggedInUser}
@@ -122,22 +122,19 @@ function Feed() {
                         <WalkKey>Start time: </WalkKey> {walk.startTime}
                       </WalkInfo>
                       <WalkInfo>
-                        <WalkKey>End Time: </WalkKey> {walk.endTime}
-                      </WalkInfo>
-                      <WalkInfo>
                         <WalkKey>Participants: </WalkKey>
                         {walk.attendees.length}
                       </WalkInfo>
                     </Column>
                     <Bottom>
                       {walk.userName !== loggedInUser.userName ? (
-                        <Button onClick={(e) => handleJoinWalk(e, walk._id)}>
+                        <button onClick={(e) => handleJoinWalk(e, walk._id)}>
                           Join Walk
-                        </Button>
+                        </button>
                       ) : (
-                        <Button onClick={(e) => handleDeleteWalk(e, walk._id)}>
+                        <button onClick={(e) => handleDeleteWalk(e, walk._id)}>
                           Cancel Walk
-                        </Button>
+                        </button>
                       )}
                       <PostTime>
                         <TimeOfPost>
@@ -185,20 +182,21 @@ const WalkKey = styled.span`
 `;
 const WalkInfo = styled.div``;
 const TimeOfPost = styled.div`
-  font-size: 0.75rem;
+  font-size: 0.7rem;
+  padding: 0.1em;
 `;
 const WalkHostImage = styled.img`
-  width: 80px;
-  height: 80px;
-  border-radius: 12px;
-  margin: 10px;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
   border: 1px solid #c2c2d6;
 `;
 const Column = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 45%;
+  width: 50%;
   gap: 0.5rem;
   margin-left: 0.5rem;
 `;
@@ -223,7 +221,7 @@ const LeftSide = styled.div`
   background-color: whitesmoke;
   height: 100%;
   width: 45%;
-  border-radius: 20px;
+  border-radius: 1rem;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
 `;
 const WalkCard = styled.div`
@@ -239,26 +237,24 @@ const ButtonDiv = styled.div`
   justify-content: flex-end;
   margin: 1.5em 2em 0px 0px;
 `;
-const Button = styled.button``;
 const WalkPost = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 10px;
+  border-radius: 0.5rem;
   width: 96%;
-  height: 120px;
-  margin: 10px;
+  height: 8rem;
+  margin: 0.5rem;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
 `;
 const PostTime = styled.span`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 10px;
+  gap: 0.4rem;
 `;
 const Time = styled.span`
   font-weight: bold;
-  padding: 5px;
 `;
 const Bottom = styled.div`
   display: flex;

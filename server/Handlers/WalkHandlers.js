@@ -23,7 +23,7 @@ const addWalk = async (request, response) => {
       image,
       userName,
       location,
-      endTime,
+      duration,
       startTime,
       dateTime,
       attendees: [userName],

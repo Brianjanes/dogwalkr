@@ -14,7 +14,12 @@ const containerStyle = {
 //this is the map modal form the new walk modal.
 // I want this to be able to set a pin for the new walk location, and then move that location into the new walk modal as the location.
 
-const ReactMap = ({ mapModal, setMapModal }) => {
+const ReactMap = ({
+  mapModal,
+  setMapModal,
+  onUpdateLocation,
+  onSaveLocation,
+}) => {
   const { loggedInUser } = useContext(UserContext);
   const [locationGeoCode, setLocationGeocode] = useState({
     lat: null,
@@ -25,6 +30,12 @@ const ReactMap = ({ mapModal, setMapModal }) => {
   const address = loggedInUser?.location;
   const api_key = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
   const request_url = `${url}?address=${address}&key=${api_key}`;
+
+  const handleMarkerDragEnd = (e) => {
+    const { lat, lng } = e.latLng.toJSON();
+    setLocationGeocode({ lat, lng }); // Update locationGeoCode state for centering the map
+    onUpdateLocation({ lat, lng }); // Send the updated location back to NewWalk.js
+  };
 
   useEffect(() => {
     if (loggedInUser) {
@@ -67,6 +78,13 @@ const ReactMap = ({ mapModal, setMapModal }) => {
     setMap(null);
   }, []);
 
+  // Function to handle saving the location
+  const handleSaveLocation = () => {
+    // Call the parent component's callback to save the location
+    onSaveLocation({ lat: locationGeoCode.lat, lng: locationGeoCode.lng });
+    setMapModal(false);
+  };
+
   return isLoaded ? (
     <MapContainer>
       <ExitDiv>
@@ -79,14 +97,20 @@ const ReactMap = ({ mapModal, setMapModal }) => {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={14}
+        zoom={15}
         onLoad={onLoad}
         onUnmount={onUnmount}
       >
         <>
-          <Marker position={position} draggable={true} onLoad={onLoad} />
+          <Marker
+            position={position}
+            draggable={true}
+            onLoad={onLoad}
+            onDragEnd={(e) => handleMarkerDragEnd(e)}
+          />
         </>
       </GoogleMap>
+      <button onClick={handleSaveLocation}>Save Location</button>
     </MapContainer>
   ) : (
     <MapContainer></MapContainer>

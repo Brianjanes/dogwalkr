@@ -9,12 +9,13 @@ import LoadingSpinner from "../Components/LoadingSpinner";
 //feed page route.
 //would like to expand on walk history, clean up some logic for images, and walk time related things.
 
-const Feed = () => {
+function Feed() {
   const { loggedInUser } = useContext(UserContext);
   const [modal, setModal] = useState(false);
   const [walks, setWalks] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [friends, setFriends] = useState([]);
+  const [users, setUsers] = useState(null);
 
   useEffect(() => {
     fetch("/walks")
@@ -23,6 +24,11 @@ const Feed = () => {
         if (data.status === 200) {
           setWalks(data.data);
         }
+      });
+    fetch("/users")
+      .then((response) => response.json())
+      .then((data) => {
+        setUsers(data.data);
       });
     if (loggedInUser) {
       fetch(`/friends/${loggedInUser._id}`)
@@ -147,7 +153,7 @@ const Feed = () => {
           <RightSide>
             <TopRight>
               <SearchDiv>
-                <SearchBar />
+                <SearchBar users={users} />
               </SearchDiv>
               <Friends>
                 {friends?.map((friend) => {
@@ -173,7 +179,7 @@ const Feed = () => {
       )}
     </Wrapper>
   );
-};
+}
 const WalkKey = styled.span`
   font-weight: bold;
 `;

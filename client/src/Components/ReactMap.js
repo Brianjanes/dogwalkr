@@ -11,7 +11,7 @@ const containerStyle = {
   borderRadius: "15px",
 };
 
-//this is the map modal form the new walk modal. 
+//this is the map modal form the new walk modal.
 // I want this to be able to set a pin for the new walk location, and then move that location into the new walk modal as the location.
 
 const ReactMap = ({ mapModal, setMapModal }) => {

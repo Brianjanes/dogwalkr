@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
 //this component is for searcing through your friends list.
-//as of july 25th/2023 this doesn't have a drop down delector but i would like to add one
+//as of july 25th/2023 this doesn't have a drop down autocomplete but i would like to add one
+//added autocomplete as of july 26th/2023. the user stil has to click the icon or press enter after they select a username to search.
 
-const SearchBar = () => {
+const SearchBar = ({ users }) => {
   const [search, setSearch] = useState("");
-  const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
   const searchUser = () => {
@@ -37,17 +37,23 @@ const SearchBar = () => {
       <SearchBarInput
         type="search"
         placeholder="Search for friends here"
+        list="user-list"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         onKeyDown={(e) => handleSearchEnter(e)}
+        autocomplete="off"
       />
-      <datalist id="user-list">
-        {" "}
-        {/* This is the datalist */}
-        {users.map((user, index) => (
-          <option key={index} value={user} />
-        ))}
-      </datalist>
+      {/* this is to create an autocomplete - and to only have it appear after the user has typed 2 characters. */}
+      {users && search.length >= 2 && (
+        <DatalistWrapper>
+          <datalist id="user-list">
+            {users.map((user, index) => (
+              <option key={index} value={user.userName} />
+            ))}
+          </datalist>
+        </DatalistWrapper>
+      )}
+
       <SearchDiv onClick={handleSearchClick}>
         <SearchIcon />
       </SearchDiv>
@@ -59,11 +65,19 @@ const Wrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  margin: 0.7rem;
+  position: relative;
+`;
+
+const DatalistWrapper = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
 `;
 
 const SearchIcon = styled(FiSearch)`
-  font-size: 30px;
+  font-size: 1.3rem;
   &:hover {
     cursor: pointer;
   }
@@ -79,12 +93,11 @@ const SearchBarInput = styled.input`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 300px;
-  height: 30px;
-  margin: 5px;
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 1em;
+  width: 18rem;
+  margin: 0.3px;
+  padding: 0.4rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
 `;
 
 export default SearchBar;

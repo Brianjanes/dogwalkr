@@ -11,6 +11,9 @@ const NewWalk = ({ modal, setModal }) => {
   const [formIsValid, setFormIsValid] = useState(false);
   const [walk, setWalk] = useState(false);
   const [map, setMap] = useState(false);
+  //for updating location on map with marker
+  const [location, setLocation] = useState({ lat: null, lng: null });
+
   const [formInformation, setFormInformation] = useState({
     userName: loggedInUser.userName,
     image: loggedInUser.image,
@@ -39,7 +42,7 @@ const NewWalk = ({ modal, setModal }) => {
       if (name === "location") {
         setFormInformation({
           ...formInformation,
-          location: value,
+          location: value || location,
         });
       } else if (name === "startTime") {
         setFormInformation({
@@ -93,6 +96,11 @@ const NewWalk = ({ modal, setModal }) => {
       });
   };
 
+  //for location updating via map
+  const handleUpdateLocation = (location) => {
+    setLocation(location);
+  };
+  console.log(location);
   //this is returning html with the above functions
   return (
     <Container>
@@ -115,7 +123,13 @@ const NewWalk = ({ modal, setModal }) => {
       >
         Map
       </Button>
-      {map && <ReactMap mapModal={map} setMapModal={setMap} />}
+      {map && (
+        <ReactMap
+          mapModal={map}
+          setMapModal={setMap}
+          onUpdateLocation={handleUpdateLocation} //for updating location via marker
+        />
+      )}
 
       <Info>
         <InputReqs>Start time: </InputReqs>

@@ -75,21 +75,21 @@ const Container = styled.div`
 const RightSide = styled.div`
   display: flex;
   align-items: center;
-  margin-right: 200px;
+  margin-right: 10rem;
 `;
 const Logo = styled.h1`
   font-size: 1.75em;
-  margin-left: 300px;
+  margin-left: 18rem;
 `;
 const HomeLink = styled.a``;
 const HomeText = styled.h2`
-  margin: 20px;
-  font-size: 1.25em;
+  margin: 1rem;
+  font-size: 1rem;
 `;
 const AboutLink = styled.a``;
 const About = styled.h2`
-  margin: 20px;
-  font-size: 1.25em;
+  margin: 1rem;
+  font-size: 1.2rem;
 `;
 
 export default NavBar;

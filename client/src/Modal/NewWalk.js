@@ -179,6 +179,10 @@ const NewWalk = ({ modal, setModal }) => {
     }
   };
 
+  const today = new Date();
+  const time = today.getHours() + ":" + today.getMinutes();
+  console.log(today.getMonth());
+
   return (
     <Container>
       <InnerContainer>

@@ -17,6 +17,8 @@ function Feed() {
   const [friends, setFriends] = useState([]);
   const [users, setUsers] = useState(null);
 
+  const youGotNoBuddies = "you've got no buddies yet!";
+
   useEffect(() => {
     fetch("/walks")
       .then((response) => response.json())
@@ -86,7 +88,7 @@ function Feed() {
         }
       });
   };
-
+  console.log(loggedInUser);
   return (
     <Wrapper>
       {!loggedInUser ? (
@@ -110,31 +112,35 @@ function Feed() {
               {walks?.map((walk) => {
                 return (
                   <WalkPost key={walk._id}>
-                    <WalkHostImage src={walk.image} />
+                    <WalkHostImage src={walk.image} alt="user image" />
                     <Column>
                       <WalkInfo>
-                        <WalkKey>UserName: </WalkKey> {walk.userName}
+                        <WalkKey>User: </WalkKey> {walk.userName}
                       </WalkInfo>
                       <WalkInfo>
-                        <WalkKey>Location: </WalkKey> {walk.location}
+                        <WalkKey>Starting at: </WalkKey> {walk.location}
                       </WalkInfo>
                       <WalkInfo>
                         <WalkKey>Start time: </WalkKey> {walk.startTime}
                       </WalkInfo>
                       <WalkInfo>
-                        <WalkKey>Participants: </WalkKey>
+                        <WalkKey>Duration: </WalkKey>
+                        {walk.duration}
+                      </WalkInfo>
+                      <WalkInfo>
+                        <WalkKey># of walkers: </WalkKey>
                         {walk.attendees.length}
                       </WalkInfo>
                     </Column>
                     <Bottom>
                       {walk.userName !== loggedInUser.userName ? (
-                        <button onClick={(e) => handleJoinWalk(e, walk._id)}>
-                          Join Walk
-                        </button>
+                        <Button onClick={(e) => handleJoinWalk(e, walk._id)}>
+                          Join
+                        </Button>
                       ) : (
-                        <button onClick={(e) => handleDeleteWalk(e, walk._id)}>
-                          Cancel Walk
-                        </button>
+                        <Button onClick={(e) => handleDeleteWalk(e, walk._id)}>
+                          Cancel
+                        </Button>
                       )}
                       <PostTime>
                         <TimeOfPost>
@@ -153,7 +159,25 @@ function Feed() {
                 <SearchBar users={users} />
               </SearchDiv>
               <Friends>
-                {friends?.map((friend) => {
+                {!friends ? (
+                  <p>you don't have any buddies yet ☹️</p>
+                ) : (
+                  <>
+                    {friends?.map((friend) => {
+                      return (
+                        <div key={friend._id + 1}>
+                          <UserThumbnail
+                            userName={friend.userName}
+                            user={friend}
+                            name={friend.firstName}
+                            avatar={friend.image}
+                          />
+                        </div>
+                      );
+                    })}
+                  </>
+                )}
+                {/* {friends?.map((friend) => {
                   return (
                     <div key={friend._id + 1}>
                       <UserThumbnail
@@ -164,7 +188,7 @@ function Feed() {
                       />
                     </div>
                   );
-                })}
+                })} */}
               </Friends>
             </TopRight>
             <WalkHistory>
@@ -188,9 +212,9 @@ const TimeOfPost = styled.div`
 const WalkHostImage = styled.img`
   width: 5rem;
   height: 5rem;
-  border-radius: 0.5rem;
+  border-radius: 0.4rem;
   margin: 0.5rem;
-  border: 1px solid #c2c2d6;
+  /* border: 1px solid #c2c2d6; */
 `;
 const Column = styled.div`
   display: flex;
@@ -241,20 +265,19 @@ const WalkPost = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0.5rem;
+  border-radius: 0.3rem;
   width: 96%;
   height: 8rem;
-  margin: 0.5rem;
+  margin: 0.3rem;
   box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.45);
 `;
 const PostTime = styled.span`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
-  gap: 0.4rem;
 `;
 const Time = styled.span`
-  font-weight: bold;
+  font-weight: normal;
 `;
 const Bottom = styled.div`
   display: flex;
@@ -262,6 +285,10 @@ const Bottom = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   gap: 30px;
+`;
+const Button = styled.button`
+  width: 5rem;
+  font-size: 0.8rem;
 `;
 
 //right side of the page

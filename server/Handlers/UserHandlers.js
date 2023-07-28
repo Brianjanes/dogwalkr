@@ -130,6 +130,7 @@ const checkUser = async (request, response) => {
   try {
     await client.connect();
     const user = await usersCollection.findOne({ email });
+    console.log(user);
     if (user) {
       return response.status(200).json({
         status: 200,
